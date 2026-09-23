@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="HandheldFriendly" content="true">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#070B13">
+<meta name="MobileOptimized" content="width">
+<title>مِيزان | حاسبة العمر وتحويل التاريخ والوقت</title>
+<meta name="description" content="مِيزان منصة متكاملة لحساب العمر، تحويل التاريخ الهجري والميلادي، فرق التواريخ والساعات، العد التنازلي والتقويم.">
+<meta name="keywords" content="حساب العمر, تحويل هجري ميلادي, فرق التاريخ, فرق الوقت, تقويم هجري, عد تنازلي">
+<meta property="og:title" content="مِيزان | كل حسابات التاريخ والوقت في مكان واحد">
+<meta property="og:description" content="حوّل التواريخ، احسب عمرك، اعرف المدة بين تاريخين، واحسب فرق الوقت — بسرعة ودقة.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="canonical" href="https://mizan.app/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ RESET ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{width:100%;max-width:100%;overflow-x:hidden}
+body{width:100%;max-width:100%;overflow-x:hidden;overflow-x:clip;overflow-wrap:break-word;word-wrap:break-word}
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-behavior:smooth;scroll-padding-top:calc(84px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* Native Android WebView polish */
+html,body{overscroll-behavior-x:none;-webkit-tap-highlight-color:transparent}
+button,a,.btn,.icon-btn,.nav-link{touch-action:manipulation}
+input,select,textarea{font-size:16px}
+@media (max-width:600px){.wrap{padding-inline:16px}.nav-inner{padding-inline:16px}.section{padding:52px 0}.btn{min-height:46px}.icon-btn{width:44px;height:44px}}
+html[data-theme="dark"]{color-scheme:dark}
+html[data-theme="light"]{color-scheme:light}
+img,svg{max-width:100%;display:block}
+button{font:inherit;cursor:pointer}
+input,select,button{font-family:inherit}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+
+/* ============ TOKENS ============ */
+:root{
+  --bg:#070B13;
+  --bg-secondary:#0D1422;
+  --card:#101A2B;
+  --card-hover:#142033;
+  --gold:#C9A86A;
+  --gold-light:#E1C48A;
+  --text:#F5F1E8;
+  --text-secondary:#9BA8BB;
+  --border:rgba(255,255,255,.08);
+  --input:#0B1321;
+  --danger:#D9695F;
+  --success:#7FBF8F;
+  --shadow: 0 20px 50px -20px rgba(0,0,0,.55);
+  --radius-lg:22px;
+  --radius-md:14px;
+  --radius-sm:10px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+html[data-theme="light"]{
+  --bg:#FAF6EC;
+  --bg-secondary:#F3ECDB;
+  --card:#FFFFFF;
+  --card-hover:#FCF9F0;
+  --gold:#A8843F;
+  --gold-light:#8C6A2C;
+  --text:#1B2433;
+  --text-secondary:#5B6879;
+  --border:rgba(27,36,51,.1);
+  --input:#FFFFFF;
+  --shadow: 0 20px 50px -25px rgba(60,45,10,.25);
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Cairo',system-ui,sans-serif;
+  min-height:100%;
+  -webkit-font-smoothing:antialiased;
+  transition:background .35s var(--ease),color .35s var(--ease);
+}
+[lang-mode="en"] body,[lang-mode="fr"] body{font-family:'Inter','Cairo',system-ui,sans-serif}
+.ff-display{font-family:'Playfair Display',serif}
+[lang-mode="en"] .ff-display,[lang-mode="fr"] .ff-display{font-family:'Playfair Display',serif}
+.num{font-family:'Inter','Cairo',sans-serif;font-variant-numeric:tabular-nums}
+
+::selection{background:var(--gold);color:#0B0F16}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.sr-only:focus{position:fixed;top:10px;inset-inline-start:10px;width:auto;height:auto;padding:10px 18px;
+  margin:0;overflow:visible;clip:auto;white-space:normal;z-index:999;
+  background:var(--card);color:var(--gold-light);border:1px solid var(--border);border-radius:10px;font-weight:700}
+
+/* premium thin scrollbar */
+html{scrollbar-width:thin;scrollbar-color:rgba(201,168,106,.4) transparent}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(201,168,106,.35);border-radius:100px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:rgba(201,168,106,.55)}
+
+/* geometric divider motif */
+.motif-divider{
+  height:7px;width:100%;
+  background-image:repeating-linear-gradient(135deg, rgba(201,168,106,.35) 0 1.5px, transparent 1.5px 11px),
+                    repeating-linear-gradient(45deg, rgba(201,168,106,.35) 0 1.5px, transparent 1.5px 11px);
+  background-position:0 0, 0 0; background-size:11px 11px;
+  opacity:.55; mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* ============ LAYOUT HELPERS ============ */
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.section{padding:72px 0}
+.section-head{max-width:640px;margin-bottom:40px}
+.eyebrow{color:var(--gold);font-size:13px;letter-spacing:.3px;font-weight:600;margin-bottom:10px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,3.2vw,38px);font-weight:700;margin-bottom:12px}
+.section-desc{color:var(--text-secondary);font-size:16px;line-height:1.9}
+
+.route{display:none}
+.route.active{display:block;animation:fadeUp .5s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ============ ICON SYSTEM — SVG BASED ============ */
+.icon{
+  width:22px;height:22px;
+  display:inline-block;vertical-align:middle;
+  flex-shrink:0;
+  color:currentColor;
+  transition:transform .25s var(--ease);
+}
+.icon-lg{width:30px;height:30px}
+.icon-star.filled{fill:currentColor}
+/* RTL auto-flips */
+[dir="rtl"] .icon-arrow-r{transform:scaleX(-1)}
+[dir="rtl"] .icon-chevron{transform:scaleX(-1)}
+
+/* ============ ICON BOX ============ */
+.icon-box{
+  width:46px;height:46px;display:grid;place-items:center;border-radius:14px;
+  background:rgba(201,168,106,.07);border:1px solid rgba(201,168,106,.18);
+  color:var(--gold);transition:transform .28s var(--ease),background .28s var(--ease),box-shadow .28s var(--ease);
+  flex-shrink:0;
+}
+.icon-box.sm{width:38px;height:38px;border-radius:11px}
+.icon-box.sm .icon{width:18px;height:18px}
+a:hover>.icon-box,button:hover>.icon-box,.card:hover .icon-box,.tool-card:hover .tool-head-l .icon-box{
+  transform:translateY(-2px);background:rgba(201,168,106,.15);box-shadow:0 8px 20px -8px rgba(201,168,106,.45);
+}
+a:active>.icon-box,button:active>.icon-box{transform:translateY(-1px) scale(.95)}
+
+/* ============ NAVIGATION ============ */
+.nav{
+  position:sticky;top:0;z-index:40;
+  padding-top:env(safe-area-inset-top,0px);
+  background:color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;gap:20px;padding:14px 0;max-width:1180px;margin:0 auto;padding-inline:24px;min-width:0}
+.nav-inner > *{min-width:0}
+.wrap,.nav-inner,.hero-grid,.tools-grid,.section{min-width:0;max-width:100%}
+.hero-grid > *,.tools-grid > *,.events-grid > *,.field-row > *,.tool-head > *,.tool-head-l > *,.tool-head-l > div,.live-row > *,.result-actions > *,.toggle-row > *,.hist-item > *,.cal-head > *,.brand > *{min-width:0}
+.brand{display:flex;align-items:baseline;gap:8px;flex-shrink:0}
+.brand-name{font-family:'Playfair Display',serif;font-weight:700;font-size:22px;color:var(--gold-light);letter-spacing:.5px}
+.brand-tag{font-size:10px;letter-spacing:1.5px;color:var(--text-secondary);font-family:'Inter',sans-serif}
+.nav-links{display:none;gap:4px;margin-inline-start:12px}
+.nav-link{padding:9px 14px;border-radius:10px;color:var(--text-secondary);font-size:14.5px;font-weight:500;transition:color .2s,background .2s;position:relative}
+.nav-link:hover{color:var(--text);background:var(--card)}
+.nav-link.active{color:var(--gold-light);background:rgba(201,168,106,.08)}
+.nav-link.active::after{content:"";position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:14px;height:2px;border-radius:2px;background:var(--gold);animation:navDot .3s var(--ease)}
+@keyframes navDot{from{width:0;opacity:0}to{width:14px;opacity:1}}
+.nav-spacer{flex:1}
+.nav-actions{display:flex;align-items:center;gap:6px}
+.icon-btn{
+  width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--card);
+  color:var(--text-secondary);display:grid;place-items:center;transition:all .2s var(--ease);
+}
+.icon-btn:hover{color:var(--gold);border-color:rgba(201,168,106,.3);transform:translateY(-1px)}
+.icon-btn:active{transform:scale(.94)}
+.icon-btn .icon{width:18px;height:18px}
+.lang-btn{width:auto;padding:0 12px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif}
+.nav-burger{display:grid}
+.search-wrap{position:relative;align-items:center;display:none}
+.mobile-panel .search-wrap{display:flex}
+.search-input{
+  width:190px;background:var(--input);border:1px solid var(--border);border-radius:11px;
+  height:40px;padding-inline:38px 12px;color:var(--text);font-size:13.5px;transition:width .3s var(--ease),border-color .2s;
+  min-width:0;max-width:100%;
+}
+.search-input:focus{width:230px;border-color:rgba(201,168,106,.4)}
+.search-wrap .icon{position:absolute;inset-inline-start:10px;color:var(--text-secondary);pointer-events:none;width:16px;height:16px}
+
+.mobile-panel{
+  display:none;position:fixed;inset:0;z-index:60;background:var(--bg);
+  padding:20px 24px;padding-top:calc(20px + env(safe-area-inset-top,0px));
+  overflow-y:auto;
+}
+.mobile-panel.open{display:block;animation:fadeUp .3s var(--ease)}
+.mobile-panel .nav-link{display:block;padding:14px 6px;font-size:18px;border-bottom:1px solid var(--border)}
+
+/* ============ BUTTONS ============ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 26px;border-radius:12px;font-weight:700;font-size:15px;border:1px solid transparent;
+  transition:all .22s var(--ease);white-space:nowrap;
+  min-width:0;
+}
+.btn:active{transform:scale(.96)}
+.btn .icon{width:17px;height:17px}
+.btn-primary{background:linear-gradient(180deg,var(--gold-light),var(--gold));color:#1A1305}
+.btn-primary:hover{filter:brightness(1.08);transform:translateY(-2px);box-shadow:0 10px 28px -10px rgba(201,168,106,.5)}
+.btn-secondary{background:transparent;border-color:rgba(201,168,106,.4);color:var(--gold-light)}
+.btn-secondary:hover{background:rgba(201,168,106,.08);transform:translateY(-2px)}
+.btn-ghost{background:var(--card);border-color:var(--border);color:var(--text)}
+.btn-ghost:hover{background:var(--card-hover)}
+.btn-danger{background:transparent;border-color:rgba(217,105,95,.4);color:var(--danger)}
+.btn-danger:hover{background:rgba(217,105,95,.1)}
+.btn-sm{padding:9px 16px;font-size:13.5px;border-radius:10px}
+.btn-sm .icon{width:15px;height:15px}
+.btn-block{width:100%}
+.btn-icon-only{padding:10px;width:42px;height:42px}
+
+/* ============ CARD ============ */
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow);transition:border-color .25s var(--ease),transform .25s var(--ease),background .25s var(--ease);
+  min-width:0;
+}
+.card:hover{border-color:rgba(201,168,106,.22)}
+
+/* ============ HERO ============ */
+.hero{padding:56px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1fr;gap:28px;align-items:stretch}
+.hero-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(32px,4.4vw,52px);line-height:1.2;margin-bottom:20px}
+.hero-desc{color:var(--text-secondary);font-size:17px;line-height:2;max-width:520px;margin-bottom:32px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+
+.live-card{padding:30px;display:flex;flex-direction:column;justify-content:center;gap:22px;position:relative;overflow:hidden}
+.live-card::before{content:"";position:absolute;inset:0;background:radial-gradient(140px 110px at 88% -6%,rgba(201,168,106,.14),transparent),radial-gradient(160px 120px at -6% 108%,rgba(201,168,106,.08),transparent);pointer-events:none}
+.live-card::after{content:"";position:absolute;top:16px;inset-inline-start:16px;width:22px;height:22px;border-top:1.5px solid rgba(201,168,106,.4);border-inline-start:1.5px solid rgba(201,168,106,.4);border-radius:6px 0 0 0;pointer-events:none}
+.live-badge{display:flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:12.5px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 0 0 rgba(127,191,143,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(127,191,143,.5)}70%{box-shadow:0 0 0 8px rgba(127,191,143,0)}100%{box-shadow:0 0 0 0 rgba(127,191,143,0)}}
+.live-time{font-family:'Inter',sans-serif;font-weight:700;font-size:clamp(38px,5vw,52px);letter-spacing:1px;color:var(--gold-light)}
+.live-row{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border);gap:10px}
+.live-label{color:var(--text-secondary);font-size:13px;flex-shrink:0}
+.live-value{font-weight:700;font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:end}
+
+/* ============ TOOLS GRID ============ */
+.toolbar-row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:8px 15px;border-radius:100px;border:1px solid var(--border);background:var(--card);font-size:13px;color:var(--text-secondary);transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.chip .icon{width:14px;height:14px}
+.chip.active{background:rgba(201,168,106,.1);border-color:rgba(201,168,106,.35);color:var(--gold-light)}
+
+.tools-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.tool-card{padding:24px;display:flex;flex-direction:column;gap:16px;animation:cardIn .5s var(--ease) both;min-width:0}
+.tool-card:nth-child(1){animation-delay:.02s}.tool-card:nth-child(2){animation-delay:.07s}
+.tool-card:nth-child(3){animation-delay:.12s}.tool-card:nth-child(4){animation-delay:.17s}
+.tool-card:nth-child(5){animation-delay:.22s}.tool-card:nth-child(6){animation-delay:.27s}
+.tool-card:nth-child(7){animation-delay:.32s}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.tool-card.wide{grid-column:1 / -1}
+.tool-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.tool-head-l{display:flex;gap:14px;align-items:center;min-width:0;flex:1}
+.tool-head-l > div{min-width:0;overflow-wrap:break-word}
+.tool-title{font-weight:700;font-size:16.5px;margin-bottom:3px}
+.tool-desc{color:var(--text-secondary);font-size:13px;line-height:1.6}
+.fav-btn{color:var(--text-secondary);background:transparent;border:none;padding:4px;flex-shrink:0}
+.fav-btn.active{color:var(--gold)}
+.fav-btn .icon{transition:transform .2s var(--ease)}
+.fav-btn.pop .icon{animation:favPop .45s var(--ease)}
+@keyframes favPop{0%{transform:scale(1)}40%{transform:scale(1.35)}100%{transform:scale(1)}}
+
+.field-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.field{flex:1;min-width:130px;display:flex;flex-direction:column;gap:6px;max-width:100%}
+.field label{font-size:12.5px;color:var(--text-secondary);font-weight:600}
+.field input,.field select{
+  background:var(--input);border:1px solid var(--border);border-radius:11px;
+  padding:11px 13px;color:var(--text);font-size:14.5px;width:100%;transition:border-color .2s;
+  min-height:44px;color-scheme:inherit;min-width:0;max-width:100%;
+}
+.field input[type="date"],.field input[type="time"]{min-width:0;max-width:100%}
+.field input:focus,.field select:focus{border-color:rgba(201,168,106,.45);box-shadow:0 0 0 3px rgba(201,168,106,.12)}
+.swap-btn{color:var(--text-secondary);flex-shrink:0;margin-bottom:2px}
+.swap-btn:hover{color:var(--gold)}
+.swap-btn.spin .icon{animation:spin180 .4s var(--ease)}
+@keyframes spin180{from{transform:rotate(0)}to{transform:rotate(180deg)}}
+
+.toggle-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-secondary);flex-wrap:wrap;min-width:0}
+.toggle-row > *{min-width:0}
+.switch{width:38px;height:22px;border-radius:100px;background:var(--input);border:1px solid var(--border);position:relative;flex-shrink:0;transition:background .2s;cursor:pointer;padding:0}
+.switch::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:var(--text-secondary);top:2px;inset-inline-start:2px;transition:all .2s var(--ease)}
+.switch.on{background:rgba(201,168,106,.25);border-color:rgba(201,168,106,.4)}
+.switch.on::after{inset-inline-start:18px;background:var(--gold)}
+
+.result-box{
+  background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);
+  padding:18px 20px;display:none;flex-direction:column;gap:10px;min-width:0;
+}
+.result-box.show{display:flex;animation:fadeUp .35s var(--ease)}
+.result-main{font-family:'Inter',sans-serif;font-weight:800;font-size:26px;color:var(--gold-light);overflow-wrap:anywhere}
+.result-sub{color:var(--text-secondary);font-size:13.5px;overflow-wrap:anywhere}
+.result-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(80px,100%),1fr));gap:10px;margin-top:4px}
+.stat{text-align:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 6px;min-width:0}
+.stat b{display:block;font-family:'Inter',sans-serif;font-size:16px;color:var(--gold-light);overflow-wrap:anywhere;word-break:break-word}
+.stat span{font-size:11px;color:var(--text-secondary);overflow-wrap:anywhere}
+.result-actions{display:flex;gap:8px;padding-top:4px;flex-wrap:wrap}
+.result-actions .btn{flex:0 1 auto;min-width:0}
+.err-box{display:none;color:var(--danger);font-size:13px;background:rgba(217,105,95,.08);border:1px solid rgba(217,105,95,.25);border-radius:10px;padding:10px 13px}
+.err-box.show{display:block;animation:fadeUp .25s var(--ease)}
+.hint{font-size:12px;color:var(--text-secondary);line-height:1.7}
+
+.progress-track{height:8px;border-radius:100px;background:var(--input);overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:100px;transition:width .6s var(--ease)}
+
+.countdown-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center}
+.cd-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 4px;min-width:0}
+.cd-num{font-family:'Inter',sans-serif;font-weight:800;font-size:26px;color:var(--gold-light);overflow-wrap:anywhere;line-height:1.1}
+.cd-lbl{font-size:11px;color:var(--text-secondary);margin-top:2px}
+
+/* ============ CALENDAR ============ */
+.cal-card{padding:24px;min-width:0}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:10px;flex-wrap:wrap}
+.cal-title{font-weight:700;font-size:18px}
+.cal-nav{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;min-width:0}
+.cal-dow{text-align:center;font-size:12px;color:var(--text-secondary);padding:6px 0;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.cal-day{
+  aspect-ratio:1;border-radius:10px;border:1px solid var(--border);background:var(--input);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  cursor:pointer;transition:all .18s var(--ease);overflow:hidden;min-width:0;
+}
+.cal-day:hover{border-color:rgba(201,168,106,.4);transform:translateY(-2px)}
+.cal-day.muted{opacity:.32}
+.cal-day.today{border-color:var(--gold);background:rgba(201,168,106,.1)}
+.cal-day.selected{background:var(--gold);border-color:var(--gold)}
+.cal-day.selected .cal-day-num,.cal-day.selected .cal-day-sub{color:#1A1305}
+.cal-day-num{font-family:'Inter',sans-serif;font-weight:700;font-size:14px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1}
+.cal-day-sub{font-size:9.5px;color:var(--text-secondary);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1}
+.cal-panel{margin-top:18px;padding-top:18px;border-top:1px solid var(--border);display:none}
+.cal-panel.show{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr));gap:12px;animation:fadeUp .3s var(--ease)}
+
+/* ============ EVENTS ============ */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:18px}
+.event-card{padding:22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.event-date{color:var(--text-secondary);font-size:13px;overflow-wrap:anywhere}
+.event-name{font-weight:700;font-size:17px;overflow-wrap:anywhere}
+
+/* ============ HISTORY / FAVORITES PANEL ============ */
+.side-card{padding:20px;min-width:0}
+.hist-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--border);font-size:13.5px;min-width:0}
+.hist-item > div{min-width:0}
+.hist-item:last-child{border-bottom:none}
+.hist-actions{display:flex;gap:4px;flex-shrink:0}
+.empty-state{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:30px 10px;color:var(--text-secondary)}
+.empty-state .icon-box{margin-bottom:4px}
+
+/* ============ TOAST ============ */
+.toast-stack{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:8px;padding-bottom:env(safe-area-inset-bottom,0px);width:min(90vw,380px)}
+.toast{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;
+  display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);font-size:13.5px;
+  animation:toastIn .35s var(--ease);min-width:0;
+}
+.toast.out{animation:toastOut .3s var(--ease) forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes toastOut{to{opacity:0;transform:translateY(10px) scale(.96)}}
+.toast .icon{color:var(--success);flex-shrink:0;width:18px;height:18px}
+.toast.error .icon{color:var(--danger)}
+
+/* ============ ABOUT / PRIVACY ============ */
+.prose{max-width:720px;color:var(--text-secondary);line-height:2;font-size:15.5px;overflow-wrap:anywhere}
+.prose h3{color:var(--text);font-family:'Playfair Display',serif;font-size:19px;margin:26px 0 10px}
+.prose ul{margin-inline-start:20px;list-style:disc}
+
+/* ============ FOOTER ============ */
+.footer{border-top:1px solid var(--border);padding:44px 0 28px;margin-top:40px}
+.footer-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:24px}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-links a{color:var(--text-secondary);font-size:13.5px}
+.footer-links a:hover{color:var(--gold-light)}
+.footer-bottom{margin-top:28px;padding-top:20px;border-top:1px solid var(--border);color:var(--text-secondary);font-size:12.5px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.signature-row{display:flex;justify-content:center;padding-top:22px}
+.signature-link{
+  font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:15px;
+  letter-spacing:.5px;color:var(--text-secondary);position:relative;padding:4px 2px;
+  transition:color .3s var(--ease);
+}
+.signature-link::before{content:"";position:absolute;inset-inline-start:0;bottom:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transform:scaleX(.6);transition:all .3s var(--ease)}
+.signature-link:hover{color:var(--gold-light)}
+.signature-link:hover::before{opacity:1;transform:scaleX(1)}
+
+/* ============ MISC ============ */
+.skeleton{background:linear-gradient(90deg,var(--card) 0%,var(--card-hover) 50%,var(--card) 100%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:10px}
+@keyframes shimmer{to{background-position:-200% 0}}
+.highlight-pulse{animation:hlpulse 1.4s var(--ease)}
+@keyframes hlpulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,106,0)}30%{box-shadow:0 0 0 4px rgba(201,168,106,.35)}}
+
+/* ============ RESPONSIVE — MOBILE-FIRST ============ */
+.section{padding:48px 0}
+.field-row{flex-direction:column;align-items:stretch}
+.swap-btn{align-self:center;transform:rotate(90deg)}
+.countdown-grid{grid-template-columns:repeat(4,1fr);gap:6px}
+.cd-num{font-size:19px}
+.icon-btn{width:44px;height:44px}
+.history-fav-grid{grid-template-columns:1fr}
+.stat b{font-size:14px}
+
+@media (min-width:641px){
+  .field-row{flex-direction:row;align-items:flex-end}
+  .swap-btn{align-self:flex-end;transform:none}
+  .icon-btn{width:40px;height:40px}
+  .stat b{font-size:16px}
+}
+
+@media (min-width:761px){
+  .nav-links{display:flex}
+  .search-wrap{display:flex}
+  .nav-burger{display:none}
+  .mobile-panel{display:none !important}
+  .section{padding:72px 0}
+}
+
+@media (min-width:981px){
+  .hero-grid{grid-template-columns:1.15fr .85fr}
+  .tools-grid{grid-template-columns:repeat(2,1fr)}
+  .history-fav-grid{grid-template-columns:1fr 1fr}
+  .cd-num{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<a href="#home" class="sr-only">تخطي إلى المحتوى</a>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#home" class="brand" data-route-link="home" id="logoBrand">
+      <span class="brand-name">مِيزان</span>
+      <span class="brand-tag" id="brandTag">DATE &amp; TIME</span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a class="nav-link" data-route-link="home" data-i18n="nav.home">الرئيسية</a>
+      <a class="nav-link" data-route-link="tools" data-i18n="nav.tools">الأدوات</a>
+      <a class="nav-link" data-route-link="calendar" data-i18n="nav.calendar">التقويم</a>
+      <a class="nav-link" data-route-link="events" data-i18n="nav.events">المناسبات</a>
+      <a class="nav-link" data-route-link="about" data-i18n="nav.about">حول مِيزان</a>
+    </nav>
+    <div class="nav-spacer"></div>
+    <div class="search-wrap">
+      <svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg>
+      <input class="search-input" id="searchInput" type="text" data-i18n-ph="nav.searchPh" placeholder="ابحث عن أداة...">
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn lang-btn" id="langBtn" aria-label="تغيير اللغة">AR</button>
+      <button class="icon-btn" id="themeBtn" aria-label="تبديل المظهر">
+        <svg class="icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" id="themeIcon"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg>
+      </button>
+      <button class="icon-btn nav-burger" id="burgerBtn" aria-label="القائمة">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="motif-divider" aria-hidden="true"></div>
+
+<!-- MOBILE PANEL -->
+<div class="mobile-panel" id="mobilePanel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+    <span class="brand-name">مِيزان</span>
+    <button class="icon-btn" id="closeMobile" aria-label="إغلاق">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <div style="margin-bottom:16px">
+    <div class="search-wrap" style="width:100%">
+      <svg class="icon icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg>
+      <input class="search-input" id="searchInputMobile" style="width:100%" type="text" data-i18n-ph="nav.searchPh" placeholder="ابحث عن أداة...">
+    </div>
+  </div>
+  <nav id="mobileLinks">
+    <a class="nav-link" data-route-link="home" data-i18n="nav.home">الرئيسية</a>
+    <a class="nav-link" data-route-link="tools" data-i18n="nav.tools">الأدوات</a>
+    <a class="nav-link" data-route-link="calendar" data-i18n="nav.calendar">التقويم</a>
+    <a class="nav-link" data-route-link="events" data-i18n="nav.events">المناسبات</a>
+    <a class="nav-link" data-route-link="about" data-i18n="nav.about">حول مِيزان</a>
+    <a class="nav-link" data-route-link="privacy" data-i18n="nav.privacy">الخصوصية</a>
+  </nav>
+</div>
+
+<main id="mainContent"></main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <div class="brand-name" style="font-size:20px">مِيزان</div>
+        <div class="brand-tag">DATE &amp; TIME</div>
+      </div>
+      <div class="footer-links" id="footerLinks">
+        <a data-route-link="home" data-i18n="nav.home">الرئيسية</a>
+        <a data-route-link="tools" data-i18n="nav.tools">الأدوات</a>
+        <a data-route-link="calendar" data-i18n="nav.calendar">التقويم</a>
+        <a data-route-link="events" data-i18n="nav.events">المناسبات</a>
+        <a data-route-link="about" data-i18n="nav.about">حول مِيزان</a>
+        <a data-route-link="privacy" data-i18n="nav.privacy">الخصوصية</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span id="copyRight">© 2026 MIZAN. جميع الحقوق محفوظة.</span>
+      <span data-i18n="footer.local" style="opacity:.8">تعمل حاسباتك محليًا في متصفحك.</span>
+    </div>
+    <div class="signature-row">
+      <a class="signature-link" href="https://www.instagram.com/vrx.q0?stkn=dDExM28ybmFmbXBz" target="_blank" rel="noopener noreferrer">vrx</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast-stack" id="toastStack"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* =====================================================================
+   0) SVG ICON SYSTEM
+   ===================================================================== */
+const ICONS = {
+  home:'<path d="M3 10.8 12 3.5l9 7.3"/><path d="M5.6 9.2V20a.6.6 0 0 0 .6.6h11.6a.6.6 0 0 0 .6-.6V9.2"/>',
+  tools:'<path d="M4 7.5h9"/><path d="M17 7.5h3"/><circle cx="15" cy="7.5" r="2"/><path d="M4 16.5h3"/><path d="M11 16.5h9"/><circle cx="9" cy="16.5" r="2"/>',
+  calendar:'<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3.5v3M16 3.5v3M3.5 10h17"/>',
+  events:'<path d="M12 3.5c.4 3.7 1.3 4.6 5 5-3.7.4-4.6 1.3-5 5-.4-3.7-1.3-4.6-5-5 3.7-.4 4.6-1.3 5-5Z"/><path d="M18.5 14.5c.2 1.9.7 2.4 2.5 2.5-1.8.2-2.3.6-2.5 2.5-.2-1.9-.7-2.3-2.5-2.5 1.8-.1 2.3-.6 2.5-2.5Z"/>',
+  about:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.7" r=".9" fill="currentColor" stroke="none"/>',
+  privacy:'<path d="M12 3.5 4.5 6.5v5.2c0 4.3 3 7.6 7.5 8.8 4.5-1.2 7.5-4.5 7.5-8.8V6.5Z"/><path d="m9 12 2 2 4-4"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/>',
+  menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+  close:'<path d="M6 6l12 12M18 6 6 18"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/>',
+  moon:'<path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/>',
+  copy:'<rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M6 15H5.5A2.5 2.5 0 0 1 3 12.5v-7A2.5 2.5 0 0 1 5.5 3h7A2.5 2.5 0 0 1 15 5.5V6"/>',
+  share:'<circle cx="6" cy="12" r="2.5"/><circle cx="17" cy="5.5" r="2.5"/><circle cx="17" cy="18.5" r="2.5"/><path d="m8.3 10.8 6.5-3.7M8.3 13.2l6.5 3.7"/>',
+  swap:'<path d="M7 4v14M7 4 4 7M7 4l3 3"/><path d="M17 20V6M17 20l3-3M17 20l-3-3"/>',
+  check:'<path d="M4.5 12.5 10 18l9.5-11"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  minus:'<path d="M5 12h14"/>',
+  trash:'<path d="M4 6.5h16"/><path d="M9 6.5V4.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/><path d="M6 6.5 7 20a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13.5"/><path d="M10 10v7M14 10v7"/>',
+  star:'<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5Z"/>',
+  chevron:'<path d="M14.5 6l-6 6 6 6"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  cake:'<path d="M4 20.5v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6"/><path d="M3 20.5h18"/><path d="M4 17c1.8 0 1.8-1.5 4-1.5S10.2 17 12 17s1.8-1.5 4-1.5 2.2 1.5 4 1.5"/><path d="M8 12.5V9.5M12 12.5V8.5M16 12.5V9.5"/><circle cx="8" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="7" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="8" r="1" fill="currentColor" stroke="none"/>',
+  history:'<path d="M3.5 12a8.5 8.5 0 1 0 3-6.5L3.5 8"/><path d="M3.5 4v4h4"/><path d="M12 8v4l3 2"/>',
+  'arrow-r':'<path d="M4 12h16M14 6l6 6-6 6"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 3.5 6 3.5 9s-1 6-3.5 9c-2.5-3-3.5-6-3.5-9s1-6 3.5-9Z"/>'
+};
+function ic(name, extra){
+  const path = ICONS[name] || "";
+  const cls = "icon icon-" + name + (extra ? " " + extra : "");
+  return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+}
+function iconBox(name, sm){ return `<div class="icon-box ${sm?'sm':''}">${ic(name)}</div>`; }
+
+/* =====================================================================
+   1) TRANSLATIONS
+   ===================================================================== */
+const I18N = {
+ar:{
+  dir:"rtl", locale:"ar-SA-u-nu-latn", hijriLabel:"هجري",
+  nav:{home:"الرئيسية",tools:"الأدوات",calendar:"التقويم",events:"المناسبات",about:"حول مِيزان",privacy:"الخصوصية",searchPh:"ابحث عن أداة..."},
+  hero:{title:"كل حسابات التاريخ والوقت في مكان واحد.",
+    desc:"حوّل التواريخ، احسب عمرك، اعرف المدة بين تاريخين، واحسب فرق الوقت — بسرعة ودقة وبواجهة مصممة بعناية.",
+    start:"ابدأ الآن", explore:"استكشف الأدوات", liveLabel:"التاريخ والوقت المحلي",
+    gregorian:"الميلادي", hijri:"الهجري", weekday:"اليوم", time:"الوقت"},
+  tools:{heading:"أدواتك اليومية", desc:"كل ما تحتاجه للتعامل مع التاريخ والوقت في مكان واحد.",
+    all:"الكل", favorites:"المفضلة"},
+  t:{
+    age:{title:"حساب العمر", desc:"اعرف عمرك بالسنوات والأشهر والأيام، وموعد عيد ميلادك القادم.",
+      birthDate:"تاريخ الميلاد", calc:"احسب العمر", years:"سنة", months:"أشهر", days:"يومًا",
+      totalDays:"إجمالي الأيام", totalWeeks:"إجمالي الأسابيع", totalHours:"إجمالي الساعات", totalMinutes:"إجمالي الدقائق",
+      nextBirthday:"عيد ميلادك القادم بعد", dayWord:"يوم", today:"اليوم هو عيد ميلادك! 🎉", saveProfile:"احفظ كتاريخ ميلادي"},
+    converter:{title:"تحويل التاريخ", desc:"حوّل بين التاريخ الميلادي والهجري بدقة، مع دعم الاتجاهين.",
+      fromGregorian:"من الميلادي إلى الهجري", fromHijri:"من الهجري إلى الميلادي",
+      gYear:"السنة",gMonth:"الشهر",gDay:"اليوم", hYear:"السنة الهجرية",hMonth:"الشهر الهجري",hDay:"اليوم الهجري",
+      convert:"حوّل التاريخ", today:"اليوم", swap:"عكس الاتجاه",
+      note:"التاريخ الهجري المحسوب تقريبي وقد يختلف يومًا واحدًا عن التاريخ المبني على الرؤية الشرعية."},
+    dateDiff:{title:"الفرق بين تاريخين", desc:"احسب عدد الأيام والأسابيع بين أي تاريخين.",
+      from:"من",to:"إلى",calc:"احسب الفرق", inclusive:"احتساب يوم البداية (شامل)",
+      daysUnit:"يومًا", weeksAndDays:"أسبوعًا ويوم", totalHours:"إجمالي الساعات", totalMinutes:"إجمالي الدقائق"},
+    timeDiff:{title:"فرق الوقت", desc:"احسب الفرق بين وقتين، مع دعم تلقائي لعبور منتصف الليل.",
+      from:"من",to:"إلى",calc:"احسب الفرق", hours:"ساعة", minutes:"دقيقة",
+      totalMinutes:"إجمالي الدقائق", totalSeconds:"إجمالي الثواني"},
+    countdown:{title:"العد التنازلي", desc:"أنشئ عدًا تنازليًا حتى أي تاريخ ووقت تختاره.",
+      date:"التاريخ", time:"الوقت", start:"ابدأ العد التنازلي",
+      days:"يوم",hours:"ساعة",minutes:"دقيقة",seconds:"ثانية", reached:"حان الموعد!"},
+    addsub:{title:"إضافة وطرح مدة", desc:"أضف أو اطرح أيامًا أو أسابيع أو أشهرًا أو سنوات من تاريخ معيّن.",
+      baseDate:"التاريخ الأساسي", amount:"المدة", unit:"الوحدة",
+      days:"أيام",weeks:"أسابيع",months:"أشهر",years:"سنوات",
+      add:"إضافة",sub:"طرح", calc:"احسب النتيجة", resultDate:"التاريخ الناتج"},
+    dayfinder:{title:"معرفة يوم الأسبوع", desc:"اعرف يوم الأسبوع لأي تاريخ، ورقمه من السنة.",
+      date:"التاريخ", calc:"اعرف اليوم", dayOfYear:"رقم اليوم من السنة", weekNo:"رقم الأسبوع"}
+  },
+  history:{title:"سجل العمليات", empty:"لا توجد عمليات محفوظة بعد.", clearAll:"حذف الكل", replay:"إعادة"},
+  favorites:{title:"المفضلة", empty:"أضف أدواتك المفضلة للوصول إليها بسرعة."},
+  calendar:{heading:"التقويم", desc:"تقويم ميلادي وهجري تفاعلي مع تفاصيل كل يوم.",
+    today:"اليوم", primaryGregorian:"ميلادي", primaryHijri:"هجري",
+    weekNo:"رقم الأسبوع", dayOfYear:"رقم اليوم من السنة", selectDay:"اختر يومًا لعرض تفاصيله.",
+    dow:["أحد","إثنين","ثلاثاء","أربعاء","خميس","جمعة","سبت"]},
+  events:{heading:"المناسبات القادمة", desc:"تابع أقرب المناسبات الهجرية وعيد ميلادك.",
+    ramadan:"رمضان", eidFitr:"عيد الفطر", eidAdha:"عيد الأضحى", hijriNewYear:"رأس السنة الهجرية",
+    mawlid:"المولد النبوي", birthday:"عيد ميلادك", inDays:"بعد", daysWord:"يومًا",
+    approxNote:"التواريخ الهجرية تقريبية وقد تختلف يومًا حسب رؤية الهلال."},
+  about:{heading:"حول مِيزان",
+    p1:"مِيزان منصة عربية متخصصة في حسابات التاريخ والوقت — تحويل هجري/ميلادي، حساب العمر، فرق التواريخ والساعات، العد التنازلي، والتقويم — في مكان واحد أنيق وسريع.",
+    p2:"صُمم مِيزان ليكون دقيقًا وبسيطًا وسريعًا، دون تسجيل حساب، ودون تعقيد."},
+  privacy:{heading:"الخصوصية",
+    p1:"لا يحتاج استخدام مِيزان إلى إنشاء حساب.",
+    l1:"تُحفظ تواريخك وسجل عملياتك محليًا في متصفحك (Local Storage) فقط.",
+    l2:"لا يتم إرسال بياناتك إلى أي خادم إلا عند الحاجة الفعلية.",
+    l3:"لا يتم بيع بياناتك أو مشاركتها مع أي طرف ثالث.",
+    l4:"تعمل أغلب أدوات الحساب محليًا داخل متصفحك مباشرة."},
+  toast:{copied:"تم نسخ النتيجة", shared:"تمت المشاركة", saved:"تم الحفظ", deleted:"تم الحذف", cleared:"تم حذف السجل بالكامل",
+    favAdded:"أُضيفت إلى المفضلة", favRemoved:"أُزيلت من المفضلة", replayed:"تمت إعادة العملية"},
+  err:{empty:"يرجى إدخال تاريخ صحيح.", range:"يرجى اختيار تاريخ البداية والنهاية.", time:"يرجى إدخال وقتين صحيحين.",
+    futureNeeded:"يرجى اختيار تاريخ ووقت في المستقبل.", invalidDate:"هذا التاريخ غير صحيح."},
+  footer:{local:"تعمل حاسباتك محليًا في متصفحك."}
+},
+en:{
+  dir:"ltr", locale:"en-US", hijriLabel:"Hijri",
+  nav:{home:"Home",tools:"Tools",calendar:"Calendar",events:"Events",about:"About",privacy:"Privacy",searchPh:"Search a tool..."},
+  hero:{title:"Every date and time calculation, in one place.",
+    desc:"Convert dates, calculate your age, find the gap between two dates, and compare times — fast, accurate, and carefully designed.",
+    start:"Get Started", explore:"Explore Tools", liveLabel:"Local date & time",
+    gregorian:"Gregorian", hijri:"Hijri", weekday:"Day", time:"Time"},
+  tools:{heading:"Your Daily Tools", desc:"Everything you need for date and time calculations, in one place.",
+    all:"All", favorites:"Favorites"},
+  t:{
+    age:{title:"Age Calculator", desc:"Know your exact age in years, months and days, and your next birthday.",
+      birthDate:"Birth date", calc:"Calculate Age", years:"years", months:"months", days:"days",
+      totalDays:"Total days", totalWeeks:"Total weeks", totalHours:"Total hours", totalMinutes:"Total minutes",
+      nextBirthday:"Your next birthday is in", dayWord:"days", today:"Today is your birthday!", saveProfile:"Save as my birth date"},
+    converter:{title:"Date Converter", desc:"Convert accurately between Gregorian and Hijri dates, both directions.",
+      fromGregorian:"Gregorian → Hijri", fromHijri:"Hijri → Gregorian",
+      gYear:"Year",gMonth:"Month",gDay:"Day", hYear:"Hijri year",hMonth:"Hijri month",hDay:"Hijri day",
+      convert:"Convert", today:"Today", swap:"Swap direction",
+      note:"The calculated Hijri date is approximate and may differ by one day from moon-sighting based dates."},
+    dateDiff:{title:"Date Difference", desc:"Calculate the number of days and weeks between two dates.",
+      from:"From",to:"To",calc:"Calculate", inclusive:"Include start day (inclusive)",
+      daysUnit:"days", weeksAndDays:"weeks & days", totalHours:"Total hours", totalMinutes:"Total minutes"},
+    timeDiff:{title:"Time Difference", desc:"Calculate the gap between two times, with automatic midnight handling.",
+      from:"From",to:"To",calc:"Calculate", hours:"hours", minutes:"minutes",
+      totalMinutes:"Total minutes", totalSeconds:"Total seconds"},
+    countdown:{title:"Countdown", desc:"Create a live countdown to any date and time you choose.",
+      date:"Date", time:"Time", start:"Start Countdown",
+      days:"days",hours:"hours",minutes:"minutes",seconds:"seconds", reached:"Time's up!"},
+    addsub:{title:"Add / Subtract Duration", desc:"Add or subtract days, weeks, months or years from a date.",
+      baseDate:"Base date", amount:"Amount", unit:"Unit",
+      days:"Days",weeks:"Weeks",months:"Months",years:"Years",
+      add:"Add",sub:"Subtract", calc:"Calculate Result", resultDate:"Resulting date"},
+    dayfinder:{title:"Day Finder", desc:"Find the weekday for any date, and its number within the year.",
+      date:"Date", calc:"Find Day", dayOfYear:"Day of year", weekNo:"Week number"}
+  },
+  history:{title:"History", empty:"No saved operations yet.", clearAll:"Clear all", replay:"Replay"},
+  favorites:{title:"Favorites", empty:"Add favorite tools for quick access."},
+  calendar:{heading:"Calendar", desc:"An interactive Gregorian & Hijri calendar with full day details.",
+    today:"Today", primaryGregorian:"Gregorian", primaryHijri:"Hijri",
+    weekNo:"Week number", dayOfYear:"Day of year", selectDay:"Select a day to see its details.",
+    dow:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]},
+  events:{heading:"Upcoming Events", desc:"Track the nearest Hijri occasions and your birthday.",
+    ramadan:"Ramadan", eidFitr:"Eid al-Fitr", eidAdha:"Eid al-Adha", hijriNewYear:"Hijri New Year",
+    mawlid:"Mawlid al-Nabi", birthday:"Your Birthday", inDays:"in", daysWord:"days",
+    approxNote:"Hijri dates are approximate and may vary by a day based on moon sighting."},
+  about:{heading:"About MIZAN",
+    p1:"MIZAN is a dedicated platform for date & time calculations — Hijri/Gregorian conversion, age, date and time differences, countdowns, and a calendar — all in one elegant, fast place.",
+    p2:"MIZAN is built to be accurate, simple and fast, with no sign-up and no complexity."},
+  privacy:{heading:"Privacy",
+    p1:"Using MIZAN never requires creating an account.",
+    l1:"Your dates and history are stored locally in your browser (Local Storage) only.",
+    l2:"Your data is never sent to a server unless truly necessary.",
+    l3:"Your data is never sold or shared with third parties.",
+    l4:"Most calculators run entirely inside your browser."},
+  toast:{copied:"Result copied", shared:"Shared", saved:"Saved", deleted:"Deleted", cleared:"History cleared",
+    favAdded:"Added to favorites", favRemoved:"Removed from favorites", replayed:"Operation replayed"},
+  err:{empty:"Please enter a valid date.", range:"Please choose a start and end date.", time:"Please enter two valid times.",
+    futureNeeded:"Please choose a future date and time.", invalidDate:"This date is invalid."},
+  footer:{local:"Your calculators run locally in your browser."}
+},
+fr:{
+  dir:"ltr", locale:"fr-FR", hijriLabel:"Hégirien",
+  nav:{home:"Accueil",tools:"Outils",calendar:"Calendrier",events:"Événements",about:"À propos",privacy:"Confidentialité",searchPh:"Rechercher un outil..."},
+  hero:{title:"Tous vos calculs de dates et d'heures, au même endroit.",
+    desc:"Convertissez des dates, calculez votre âge, trouvez l'écart entre deux dates et comparez des heures — rapide, précis et soigné.",
+    start:"Commencer", explore:"Explorer les outils", liveLabel:"Date et heure locales",
+    gregorian:"Grégorien", hijri:"Hégirien", weekday:"Jour", time:"Heure"},
+  tools:{heading:"Vos outils quotidiens", desc:"Tout ce qu'il faut pour vos calculs de date et d'heure, au même endroit.",
+    all:"Tout", favorites:"Favoris"},
+  t:{
+    age:{title:"Calcul de l'âge", desc:"Connaissez votre âge exact en années, mois et jours, et votre prochain anniversaire.",
+      birthDate:"Date de naissance", calc:"Calculer l'âge", years:"ans", months:"mois", days:"jours",
+      totalDays:"Total jours", totalWeeks:"Total semaines", totalHours:"Total heures", totalMinutes:"Total minutes",
+      nextBirthday:"Votre prochain anniversaire dans", dayWord:"jours", today:"C'est votre anniversaire aujourd'hui !", saveProfile:"Enregistrer comme ma date de naissance"},
+    converter:{title:"Convertisseur de date", desc:"Convertissez avec précision entre les dates grégorienne et hégirienne.",
+      fromGregorian:"Grégorien → Hégirien", fromHijri:"Hégirien → Grégorien",
+      gYear:"Année",gMonth:"Mois",gDay:"Jour", hYear:"Année hégirienne",hMonth:"Mois hégirien",hDay:"Jour hégirien",
+      convert:"Convertir", today:"Aujourd'hui", swap:"Inverser",
+      note:"La date hégirienne calculée est approximative et peut différer d'un jour de la date basée sur l'observation de la lune."},
+    dateDiff:{title:"Différence de dates", desc:"Calculez le nombre de jours et de semaines entre deux dates.",
+      from:"Du",to:"Au",calc:"Calculer", inclusive:"Inclure le premier jour",
+      daysUnit:"jours", weeksAndDays:"semaines et jours", totalHours:"Total heures", totalMinutes:"Total minutes"},
+    timeDiff:{title:"Différence horaire", desc:"Calculez l'écart entre deux heures, gestion automatique du passage de minuit.",
+      from:"De",to:"À",calc:"Calculer", hours:"heures", minutes:"minutes",
+      totalMinutes:"Total minutes", totalSeconds:"Total secondes"},
+    countdown:{title:"Compte à rebours", desc:"Créez un compte à rebours en direct jusqu'à la date et l'heure de votre choix.",
+      date:"Date", time:"Heure", start:"Démarrer",
+      days:"jours",hours:"heures",minutes:"minutes",seconds:"secondes", reached:"C'est l'heure !"},
+    addsub:{title:"Ajouter / Soustraire", desc:"Ajoutez ou soustrayez des jours, semaines, mois ou années à une date.",
+      baseDate:"Date de base", amount:"Quantité", unit:"Unité",
+      days:"Jours",weeks:"Semaines",months:"Mois",years:"Années",
+      add:"Ajouter",sub:"Soustraire", calc:"Calculer le résultat", resultDate:"Date résultante"},
+    dayfinder:{title:"Trouver le jour", desc:"Trouvez le jour de la semaine pour n'importe quelle date.",
+      date:"Date", calc:"Trouver", dayOfYear:"Jour de l'année", weekNo:"Numéro de semaine"}
+  },
+  history:{title:"Historique", empty:"Aucune opération enregistrée.", clearAll:"Tout effacer", replay:"Rejouer"},
+  favorites:{title:"Favoris", empty:"Ajoutez des outils favoris pour un accès rapide."},
+  calendar:{heading:"Calendrier", desc:"Un calendrier grégorien et hégirien interactif avec détails complets.",
+    today:"Aujourd'hui", primaryGregorian:"Grégorien", primaryHijri:"Hégirien",
+    weekNo:"Numéro de semaine", dayOfYear:"Jour de l'année", selectDay:"Sélectionnez un jour pour voir ses détails.",
+    dow:["Dim","Lun","Mar","Mer","Jeu","Ven","Sam"]},
+  events:{heading:"Événements à venir", desc:"Suivez les prochaines occasions hégiriennes et votre anniversaire.",
+    ramadan:"Ramadan", eidFitr:"Aïd al-Fitr", eidAdha:"Aïd al-Adha", hijriNewYear:"Nouvel an hégirien",
+    mawlid:"Mawlid al-Nabi", birthday:"Votre anniversaire", inDays:"dans", daysWord:"jours",
+    approxNote:"Les dates hégiriennes sont approximatives et peuvent varier d'un jour."},
+  about:{heading:"À propos de MIZAN",
+    p1:"MIZAN est une plateforme dédiée aux calculs de date et d'heure — conversion hégirien/grégorien, âge, différences de dates et d'heures, comptes à rebours et calendrier — au même endroit, élégant et rapide.",
+    p2:"MIZAN est conçu pour être précis, simple et rapide, sans inscription et sans complexité."},
+  privacy:{heading:"Confidentialité",
+    p1:"Utiliser MIZAN ne nécessite jamais de créer un compte.",
+    l1:"Vos dates et votre historique sont stockés localement dans votre navigateur uniquement.",
+    l2:"Vos données ne sont jamais envoyées à un serveur sauf nécessité réelle.",
+    l3:"Vos données ne sont jamais vendues ni partagées.",
+    l4:"La plupart des calculs s'exécutent entièrement dans votre navigateur."},
+  toast:{copied:"Résultat copié", shared:"Partagé", saved:"Enregistré", deleted:"Supprimé", cleared:"Historique effacé",
+    favAdded:"Ajouté aux favoris", favRemoved:"Retiré des favoris", replayed:"Opération rejouée"},
+  err:{empty:"Veuillez entrer une date valide.", range:"Veuillez choisir une date de début et de fin.", time:"Veuillez entrer deux heures valides.",
+    futureNeeded:"Veuillez choisir une date et une heure futures.", invalidDate:"Cette date est invalide."},
+  footer:{local:"Vos calculs s'exécutent localement dans votre navigateur."}
+}
+};
+
+function safeGet(key, fallback){ try{ return localStorage.getItem(key) || fallback; }catch(e){ return fallback; } }
+function safeSet(key, val){ try{ localStorage.setItem(key, val); }catch(e){} }
+let LANG = safeGet("mizan_lang", "ar");
+let THEME = safeGet("mizan_theme", "dark");
+function tr(){ return I18N[LANG]; }
+
+/* =====================================================================
+   2) DATE / HIJRI UTILITIES
+   ===================================================================== */
+const GMONTHS = {
+  ar:["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"],
+  en:["January","February","March","April","May","June","July","August","September","October","November","December"],
+  fr:["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"]
+};
+const HMONTHS = {
+  ar:["محرم","صفر","ربيع الأول","ربيع الآخر","جمادى الأولى","جمادى الآخرة","رجب","شعبان","رمضان","شوال","ذو القعدة","ذو الحجة"],
+  en:["Muharram","Safar","Rabi' al-awwal","Rabi' al-thani","Jumada al-awwal","Jumada al-thani","Rajab","Sha'ban","Ramadan","Shawwal","Dhu al-Qi'dah","Dhu al-Hijjah"],
+  fr:["Mouharram","Safar","Rabi' al-awwal","Rabi' al-thani","Joumada al-oula","Joumada al-thania","Rajab","Cha'ban","Ramadan","Chawwal","Dhou al-Qi'da","Dhou al-Hijja"]
+};
+
+function gregorianToJDN(y,m,d){
+  const a = Math.floor((14-m)/12);
+  const yy = y + 4800 - a;
+  const mm = m + 12*a - 3;
+  return d + Math.floor((153*mm+2)/5) + 365*yy + Math.floor(yy/4) - Math.floor(yy/100) + Math.floor(yy/400) - 32045;
+}
+function jdnToGregorian(jdn){
+  let a = jdn + 32044;
+  let b = Math.floor((4*a+3)/146097);
+  let c = a - Math.floor((146097*b)/4);
+  let d2 = Math.floor((4*c+3)/1461);
+  let e = c - Math.floor((1461*d2)/4);
+  let m2 = Math.floor((5*e+2)/153);
+  const day = e - Math.floor((153*m2+2)/5) + 1;
+  const month = m2 + 3 - 12*Math.floor(m2/10);
+  const year = 100*b + d2 - 4800 + Math.floor(m2/10);
+  return {y:year, m:month, d:day};
+}
+function hijriToJDN(y,m,d){
+  return Math.floor((11*y+3)/30) + 354*y + 30*m - Math.floor((m-1)/2) + d + 1948440 - 385;
+}
+function jdnToHijri(jdn){
+  let l = jdn - 1948440 + 10632;
+  const n = Math.floor((l-1)/10631);
+  l = l - 10631*n + 354;
+  const j = Math.floor((10985-l)/5316)*Math.floor((50*l)/17719) + Math.floor(l/5670)*Math.floor((43*l)/15238);
+  l = l - Math.floor((30-j)/15)*Math.floor((17719*j)/50) - Math.floor(j/16)*Math.floor((15238*j)/43) + 29;
+  const month = Math.floor((24*l)/709);
+  const day = l - Math.floor((709*month)/24);
+  const year = 30*n + j - 30;
+  return {y:year, m:month, d:day};
+}
+function gregorianToHijri(y,m,d){ return jdnToHijri(gregorianToJDN(y,m,d)); }
+function hijriToGregorian(y,m,d){ return jdnToGregorian(hijriToJDN(y,m,d)); }
+
+function pad2(n){ return String(n).padStart(2,"0"); }
+function fmtNum(n){
+  n = Math.round(n);
+  const neg = n<0; n = Math.abs(n);
+  const s = String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return (neg?"-":"")+s;
+}
+function daysInMonth(y,mZeroIdx){ return new Date(y, mZeroIdx+1, 0).getDate(); }
+function isoWeekNumber(date){
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = (d.getUTCDay()+6)%7;
+  d.setUTCDate(d.getUTCDate()-dayNum+3);
+  const firstThursday = new Date(Date.UTC(d.getUTCFullYear(),0,4));
+  const diff = d - firstThursday;
+  return 1 + Math.round(diff/(7*864e5));
+}
+function dayOfYear(date){
+  const start = new Date(date.getFullYear(),0,0);
+  return Math.floor((date - start)/864e5);
+}
+function fmtGregorian(date){
+  return `${date.getDate()} ${GMONTHS[LANG][date.getMonth()]} ${date.getFullYear()}`;
+}
+function fmtHijri(h){
+  return `${h.d} ${HMONTHS[LANG][h.m-1]} ${h.y} ${LANG==="ar"?"هـ":"AH"}`;
+}
+const DOW_FULL = {
+  ar:["الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"],
+  en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+  fr:["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"]
+};
+function weekdayName(date){
+  return DOW_FULL[LANG][date.getDay()];
+}
+function parseDateInput(str){
+  if(!str) return null;
+  const d = new Date(str+"T00:00:00");
+  if(isNaN(d.getTime())) return null;
+  return d;
+}
+function todayStr(){
+  const d = new Date();
+  return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+}
+
+/* =====================================================================
+   3) STORAGE
+   ===================================================================== */
+const store = {
+  get(key, fallback){ try{ const v = localStorage.getItem(key); return v?JSON.parse(v):fallback; }catch(e){ return fallback; } },
+  set(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); return true; }catch(e){ return false; } }
+};
+let HISTORY = store.get("mizan_history", []);
+let FAVORITES = store.get("mizan_favorites", []);
+let PROFILE = store.get("mizan_profile", null);
+
+function pushHistory(entry){
+  HISTORY.unshift({...entry, id: Date.now()+"-"+Math.random().toString(36).slice(2,7), ts: Date.now()});
+  HISTORY = HISTORY.slice(0,30);
+  store.set("mizan_history", HISTORY);
+  const toolsRoute = document.getElementById("route-tools");
+  if(toolsRoute && toolsRoute.classList.contains("active")) renderHistoryPanel();
+}
+function toggleFavorite(id){
+  const i = FAVORITES.indexOf(id);
+  if(i>-1){ FAVORITES.splice(i,1); toast(tr().toast.favRemoved,"info"); }
+  else { FAVORITES.push(id); toast(tr().toast.favAdded,"success"); }
+  store.set("mizan_favorites", FAVORITES);
+  renderTools();
+}
+
+/* =====================================================================
+   4) TOASTS
+   ===================================================================== */
+function toast(msg, type){
+  const stack = document.getElementById("toastStack");
+  if(!stack) return;
+  const el = document.createElement("div");
+  el.className = "toast"+(type==="error"?" error":"");
+  el.innerHTML = `${ic(type==="error"?"close":"check")}<span>${msg}</span>`;
+  stack.appendChild(el);
+  setTimeout(()=>{ el.classList.add("out"); setTimeout(()=>el.remove(),300); }, 2600);
+}
+function copyText(text, btnEl){
+  const done = ()=>{ toast(tr().toast.copied,"success"); if(btnEl) flashIcon(btnEl); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));
+  } else fallbackCopy(text,done);
+}
+function flashIcon(btnEl){
+  const iconEl = btnEl.querySelector(".icon");
+  if(!iconEl) return;
+  const orig = iconEl.outerHTML;
+  const temp = document.createElement("span");
+  temp.innerHTML = ic("check");
+  iconEl.replaceWith(temp.firstChild);
+  setTimeout(()=>{
+    const cur = btnEl.querySelector(".icon");
+    if(cur) cur.outerHTML = orig;
+  }, 1300);
+}
+function fallbackCopy(text, cb){
+  const ta = document.createElement("textarea");
+  ta.value = text; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); cb(); }catch(e){}
+  ta.remove();
+}
+function shareText(title, text){
+  if(navigator.share){
+    navigator.share({title, text}).then(()=>toast(tr().toast.shared,"success")).catch(()=>{});
+  } else copyText(text);
+}
+
+/* =====================================================================
+   5) VALIDATION HELPERS
+   ===================================================================== */
+function showErr(boxEl, msg){ if(!boxEl) return; boxEl.textContent = msg; boxEl.classList.add("show"); }
+function hideErr(boxEl){ if(!boxEl) return; boxEl.classList.remove("show"); boxEl.textContent=""; }
+
+/* =====================================================================
+   7) TOOL DEFINITIONS
+   ===================================================================== */
+const TOOL_IDS = ["age","converter","dateDiff","timeDiff","countdown","addsub","dayfinder"];
+const TOOL_ICON = {age:"cake",converter:"swap",dateDiff:"calendar",timeDiff:"clock",countdown:"clock",addsub:"plus",dayfinder:"calendar"};
+const SEARCH_KEYWORDS = {
+  ar:{age:["عمر","ميلاد","عيد ميلاد"],converter:["هجري","ميلادي","تحويل"],dateDiff:["فرق التاريخ","بين تاريخين","أيام"],
+      timeDiff:["فرق الوقت","ساعات","وقت"],countdown:["عد تنازلي","عداد"],addsub:["اضافة","طرح","مدة"],dayfinder:["يوم الاسبوع","اي يوم"]},
+  en:{age:["age","birthday","born"],converter:["hijri","gregorian","convert"],dateDiff:["date difference","days between"],
+      timeDiff:["time difference","hours"],countdown:["countdown","timer"],addsub:["add","subtract","duration"],dayfinder:["day of week","weekday"]},
+  fr:{age:["âge","anniversaire"],converter:["hégirien","grégorien","convertir"],dateDiff:["différence dates","jours entre"],
+      timeDiff:["différence heure","heures"],countdown:["compte à rebours"],addsub:["ajouter","soustraire"],dayfinder:["jour semaine"]}
+};
+
+/* =====================================================================
+   8) ROUTER
+   ===================================================================== */
+let currentRoute = "home";
+function navigate(route, opts){
+  opts = opts||{};
+  currentRoute = route;
+  document.querySelectorAll(".route").forEach(r=>r.classList.remove("active"));
+  const el = document.getElementById("route-"+route);
+  if(el) el.classList.add("active");
+  document.querySelectorAll("[data-route-link]").forEach(a=>{
+    a.classList.toggle("active", a.getAttribute("data-route-link")===route);
+  });
+  const mp = document.getElementById("mobilePanel");
+  if(mp) mp.classList.remove("open");
+  if(!opts.silent) window.scrollTo({top:0,behavior:"smooth"});
+  if(route==="tools") renderTools();
+  if(route==="calendar") renderCalendar();
+  if(route==="events") renderEvents();
+  location.hash = route;
+}
+window.addEventListener("hashchange", ()=>{
+  const r = location.hash.replace("#","")||"home";
+  if(["home","tools","calendar","events","about","privacy"].includes(r)) navigate(r,{silent:true});
+});
+
+/* =====================================================================
+   9) RENDER: MAIN SHELL (routes)
+   ===================================================================== */
+function renderShell(){
+  document.getElementById("mainContent").innerHTML = `
+  <section class="route" id="route-home"><div class="wrap hero"><div class="hero-grid">
+    <div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">MIZAN</div>
+      <h1 class="hero-title ff-display" id="heroTitle"></h1>
+      <p class="hero-desc" id="heroDesc"></p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="heroStartBtn">${ic("arrow-r")}<span id="heroStartTxt"></span></button>
+        <button class="btn btn-secondary" id="heroExploreBtn"><span id="heroExploreTxt"></span></button>
+      </div>
+    </div>
+    <div class="card live-card">
+      <div class="live-badge"><span class="live-dot"></span><span id="liveLabelTxt"></span></div>
+      <div class="live-time num" id="liveTime">--:--:--</div>
+      <div>
+        <div class="live-row"><span class="live-label" id="liveGLabel"></span><span class="live-value num" id="liveGVal">—</span></div>
+        <div class="live-row"><span class="live-label" id="liveHLabel"></span><span class="live-value num" id="liveHVal">—</span></div>
+        <div class="live-row"><span class="live-label" id="liveWLabel"></span><span class="live-value" id="liveWVal">—</span></div>
+      </div>
+    </div>
+  </div></div></section>
+
+  <section class="route" id="route-tools"><div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">MIZAN TOOLS</div>
+      <h2 class="section-title ff-display" id="toolsHeading"></h2>
+      <p class="section-desc" id="toolsDesc"></p>
+    </div>
+    <div class="toolbar-row">
+      <div class="chip-row" id="toolFilterChips"></div>
+    </div>
+    <div class="tools-grid" id="toolsGrid"></div>
+
+    <div style="height:44px"></div>
+    <div class="tools-grid history-fav-grid">
+      <div class="card side-card" id="historyPanel"></div>
+      <div class="card side-card" id="favoritesPanel"></div>
+    </div>
+  </div></section>
+
+  <section class="route" id="route-calendar"><div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">CALENDAR</div>
+      <h2 class="section-title ff-display" id="calHeading"></h2>
+      <p class="section-desc" id="calDesc"></p>
+    </div>
+    <div class="card cal-card" id="calCard"></div>
+  </div></section>
+
+  <section class="route" id="route-events"><div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">EVENTS</div>
+      <h2 class="section-title ff-display" id="eventsHeading"></h2>
+      <p class="section-desc" id="eventsDesc"></p>
+    </div>
+    <div class="events-grid" id="eventsGrid"></div>
+    <p class="hint" style="margin-top:18px" id="eventsNote"></p>
+  </div></section>
+
+  <section class="route" id="route-about"><div class="wrap">
+    <div class="section-head">
+      <h2 class="section-title ff-display" id="aboutHeading"></h2>
+    </div>
+    <div class="prose" id="aboutProse"></div>
+  </div></section>
+
+  <section class="route" id="route-privacy"><div class="wrap">
+    <div class="section-head">
+      <h2 class="section-title ff-display" id="privacyHeading"></h2>
+    </div>
+    <div class="prose" id="privacyProse"></div>
+  </div></section>
+  `;
+
+  document.getElementById("heroStartBtn").onclick = ()=>navigate("tools");
+  document.getElementById("heroExploreBtn").onclick = ()=>navigate("tools");
+}
+
+/* =====================================================================
+   10) RENDER: TEXT (i18n static)
+   ===================================================================== */
+function applyI18n(){
+  const t = tr();
+  document.documentElement.lang = LANG;
+  document.documentElement.dir = t.dir;
+  document.body.setAttribute("lang-mode", LANG);
+  document.getElementById("langBtn").textContent = LANG.toUpperCase();
+  document.getElementById("brandTag").textContent = "DATE & TIME";
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const path = el.getAttribute("data-i18n").split(".");
+    let v = t; path.forEach(p=>v=v&&v[p]);
+    if(v) el.textContent = v;
+  });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>{
+    const path = el.getAttribute("data-i18n-ph").split(".");
+    let v = t; path.forEach(p=>v=v&&v[p]);
+    if(v) el.placeholder = v;
+  });
+
+  document.getElementById("heroTitle").textContent = t.hero.title;
+  document.getElementById("heroDesc").textContent = t.hero.desc;
+  document.getElementById("heroStartTxt").textContent = t.hero.start;
+  document.getElementById("heroExploreTxt").textContent = t.hero.explore;
+  document.getElementById("liveLabelTxt").textContent = t.hero.liveLabel;
+  document.getElementById("liveGLabel").textContent = t.hero.gregorian;
+  document.getElementById("liveHLabel").textContent = t.hero.hijri;
+  document.getElementById("liveWLabel").textContent = t.hero.weekday;
+
+  document.getElementById("toolsHeading").textContent = t.tools.heading;
+  document.getElementById("toolsDesc").textContent = t.tools.desc;
+  document.getElementById("calHeading").textContent = t.calendar.heading;
+  document.getElementById("calDesc").textContent = t.calendar.desc;
+  document.getElementById("eventsHeading").textContent = t.events.heading;
+  document.getElementById("eventsDesc").textContent = t.events.desc;
+  document.getElementById("eventsNote").textContent = t.events.approxNote;
+  document.getElementById("aboutHeading").textContent = t.about.heading;
+  document.getElementById("aboutProse").innerHTML = `<p>${t.about.p1}</p><p style="margin-top:14px">${t.about.p2}</p>`;
+  document.getElementById("privacyHeading").textContent = t.privacy.heading;
+  document.getElementById("privacyProse").innerHTML = `<p>${t.privacy.p1}</p><ul style="margin-top:14px">
+    <li>${t.privacy.l1}</li><li>${t.privacy.l2}</li><li>${t.privacy.l3}</li><li>${t.privacy.l4}</li></ul>`;
+
+  const yr = new Date().getFullYear();
+  document.getElementById("copyRight").textContent = LANG==="ar" ? `© ${yr} MIZAN. جميع الحقوق محفوظة.` : `© ${yr} MIZAN. All rights reserved.`;
+}
+
+/* =====================================================================
+   11) LIVE CLOCK
+   ===================================================================== */
+function tickClock(){
+  const now = new Date();
+  const timeEl = document.getElementById("liveTime");
+  if(timeEl) timeEl.textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}:${pad2(now.getSeconds())}`;
+  const gEl = document.getElementById("liveGVal");
+  if(gEl){
+    gEl.textContent = fmtGregorian(now);
+    const h = gregorianToHijri(now.getFullYear(), now.getMonth()+1, now.getDate());
+    const hEl = document.getElementById("liveHVal");
+    const wEl = document.getElementById("liveWVal");
+    if(hEl) hEl.textContent = fmtHijri(h);
+    if(wEl) wEl.textContent = weekdayName(now);
+  }
+}
+setInterval(tickClock, 1000);
+
+/* =====================================================================
+   12) TOOL CARD TEMPLATES
+   ===================================================================== */
+function toolCardShell(id, extraClass){
+  const t = tr().t[id];
+  const isFav = FAVORITES.includes(id);
+  return `
+  <div class="card tool-card ${extraClass||""}" data-tool="${id}">
+    <div class="tool-head">
+      <div class="tool-head-l">
+        ${iconBox(TOOL_ICON[id])}
+        <div><div class="tool-title">${t.title}</div><div class="tool-desc">${t.desc}</div></div>
+      </div>
+      <button class="fav-btn ${isFav?'active':''}" data-fav="${id}" aria-label="favorite">
+        ${ic("star", isFav?"filled":"")}
+      </button>
+    </div>
+    <div class="tool-body" id="body-${id}"></div>
+  </div>`;
+}
+
+function bodyAge(){
+  const t = tr().t.age;
+  return `
+  <div class="field-row">
+    <div class="field"><label>${t.birthDate}</label><input type="date" id="age-birth" max="${todayStr()}"></div>
+    <button class="btn btn-primary" id="age-calc">${ic("check")}<span>${t.calc}</span></button>
+  </div>
+  <div class="err-box" id="age-err"></div>
+  <div class="result-box" id="age-result">
+    <div><span class="result-main num" id="age-main"></span></div>
+    <div class="result-stats">
+      <div class="stat"><b id="age-days">0</b><span>${t.totalDays}</span></div>
+      <div class="stat"><b id="age-weeks">0</b><span>${t.totalWeeks}</span></div>
+      <div class="stat"><b id="age-hours">0</b><span>${t.totalHours}</span></div>
+      <div class="stat"><b id="age-mins">0</b><span>${t.totalMinutes}</span></div>
+    </div>
+    <div class="result-sub" id="age-next"></div>
+    <div class="progress-track"><div class="progress-fill" id="age-progress" style="width:0%"></div></div>
+    <div class="result-actions">
+      <button class="btn btn-ghost btn-sm" id="age-copy">${ic("copy")}<span data-i18n-copy>Copy</span></button>
+      <button class="btn btn-ghost btn-sm" id="age-share">${ic("share")}<span data-i18n-share>Share</span></button>
+      <button class="btn btn-secondary btn-sm" id="age-save">${ic("check")}<span>${t.saveProfile}</span></button>
+    </div>
+  </div>`;
+}
+function wireAge(){
+  const t = tr().t.age;
+  const $ = id=>document.getElementById(id);
+  if(PROFILE && PROFILE.birthDate && $("age-birth")) $("age-birth").value = PROFILE.birthDate;
+  const copySpan = document.querySelector("#body-age #age-copy span[data-i18n-copy]");
+  if(copySpan) copySpan.textContent = LANG==="ar"?"نسخ":LANG==="fr"?"Copier":"Copy";
+  const shareSpan = document.querySelector("#body-age #age-share span[data-i18n-share]");
+  if(shareSpan) shareSpan.textContent = LANG==="ar"?"مشاركة":LANG==="fr"?"Partager":"Share";
+  $("age-calc").onclick = ()=>{
+    const err = $("age-err");
+    hideErr(err);
+    const val = $("age-birth").value;
+    const birth = parseDateInput(val);
+    const now = new Date();
+    if(!birth){ showErr(err, tr().err.empty); return; }
+    if(birth > now){ showErr(err, tr().err.invalidDate); return; }
+    function addMonths(date, n){
+      const dd = new Date(date.getTime());
+      const day = dd.getDate();
+      dd.setDate(1); dd.setMonth(dd.getMonth()+n);
+      const maxDay = new Date(dd.getFullYear(), dd.getMonth()+1, 0).getDate();
+      dd.setDate(Math.min(day, maxDay));
+      return dd;
+    }
+    let totalMonths = (now.getFullYear()-birth.getFullYear())*12 + (now.getMonth()-birth.getMonth());
+    let candidate = addMonths(birth, totalMonths);
+    if(candidate > now){ totalMonths--; candidate = addMonths(birth, totalMonths); }
+    const y = Math.floor(totalMonths/12), m = totalMonths%12, d = Math.round((now-candidate)/864e5);
+    const diffMs = now - birth;
+    const totalDays = Math.floor(diffMs/864e5);
+    $("age-main").textContent = `${fmtNum(y)} ${t.years} — ${fmtNum(m)} ${t.months} — ${fmtNum(d)} ${t.days}`;
+    $("age-days").textContent = fmtNum(totalDays);
+    $("age-weeks").textContent = fmtNum(Math.floor(totalDays/7));
+    $("age-hours").textContent = fmtNum(Math.floor(diffMs/36e5));
+    $("age-mins").textContent = fmtNum(Math.floor(diffMs/6e4));
+
+    let next = new Date(now.getFullYear(), birth.getMonth(), birth.getDate());
+    if(next < new Date(now.getFullYear(),now.getMonth(),now.getDate())) next = new Date(now.getFullYear()+1, birth.getMonth(), birth.getDate());
+    const daysUntil = Math.round((next - new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);
+    if(daysUntil===0){ $("age-next").textContent = t.today; $("age-progress").style.width="100%"; }
+    else {
+      $("age-next").textContent = `${t.nextBirthday} ${fmtNum(daysUntil)} ${t.dayWord}`;
+      const pct = Math.max(0,Math.min(100, ((365-daysUntil)/365)*100));
+      $("age-progress").style.width = pct+"%";
+    }
+    $("age-result").classList.add("show");
+    pushHistory({tool:"age", label: fmtGregorian(birth), result: $("age-main").textContent, icon:"cake"});
+  };
+  $("age-copy").onclick = ()=>copyText($("age-main").textContent, $("age-copy"));
+  $("age-share").onclick = ()=>shareText("MIZAN", $("age-main").textContent);
+  $("age-save").onclick = ()=>{
+    const val = $("age-birth").value;
+    if(!val){ showErr($("age-err"), tr().err.empty); return; }
+    PROFILE = {birthDate: val};
+    store.set("mizan_profile", PROFILE);
+    toast(tr().toast.saved,"success");
+  };
+}
+
+function bodyConverter(){
+  const t = tr().t.converter;
+  return `
+  <div class="toggle-row" style="margin-bottom:2px">
+    <button class="btn btn-ghost btn-sm" id="conv-mode-g" style="flex:1">${t.fromGregorian}</button>
+    <button class="swap-btn icon-btn" id="conv-swap" aria-label="${t.swap}">${ic("swap")}</button>
+    <button class="btn btn-ghost btn-sm" id="conv-mode-h" style="flex:1">${t.fromHijri}</button>
+  </div>
+  <div id="conv-fields"></div>
+  <div class="field-row">
+    <button class="btn btn-ghost btn-sm" id="conv-today">${ic("calendar")}<span>${t.today}</span></button>
+    <button class="btn btn-primary" id="conv-go" style="flex:1">${ic("check")}<span>${t.convert}</span></button>
+  </div>
+  <div class="err-box" id="conv-err"></div>
+  <div class="result-box" id="conv-result">
+    <div class="result-main" id="conv-main"></div>
+    <div class="result-sub" id="conv-note">${t.note}</div>
+    <div class="result-actions">
+      <button class="btn btn-ghost btn-sm" id="conv-copy">${ic("copy")}</button>
+      <button class="btn btn-ghost btn-sm" id="conv-share">${ic("share")}</button>
+    </div>
+  </div>`;
+}
+let convDirection = "g2h";
+function renderConvFields(){
+  const t = tr().t.converter;
+  const now = new Date();
+  const box = document.getElementById("conv-fields");
+  if(!box) return;
+  if(convDirection==="g2h"){
+    box.innerHTML = `<div class="field-row">
+      <div class="field"><label>${t.gYear}</label><input type="number" id="conv-gy" value="${now.getFullYear()}" min="1" max="9999"></div>
+      <div class="field"><label>${t.gMonth}</label><input type="number" id="conv-gm" value="${now.getMonth()+1}" min="1" max="12"></div>
+      <div class="field"><label>${t.gDay}</label><input type="number" id="conv-gd" value="${now.getDate()}" min="1" max="31"></div>
+    </div>`;
+  } else {
+    const h = gregorianToHijri(now.getFullYear(), now.getMonth()+1, now.getDate());
+    box.innerHTML = `<div class="field-row">
+      <div class="field"><label>${t.hYear}</label><input type="number" id="conv-hy" value="${h.y}" min="1" max="9999"></div>
+      <div class="field"><label>${t.hMonth}</label><input type="number" id="conv-hm" value="${h.m}" min="1" max="12"></div>
+      <div class="field"><label>${t.hDay}</label><input type="number" id="conv-hd" value="${h.d}" min="1" max="30"></div>
+    </div>`;
+  }
+}
+function wireConverter(){
+  const $ = id=>document.getElementById(id);
+  convDirection = "g2h";
+  renderConvFields();
+  function setModeUI(){
+    $("conv-mode-g").className = "btn btn-sm "+(convDirection==="g2h"?"btn-primary":"btn-ghost");
+    $("conv-mode-h").className = "btn btn-sm "+(convDirection==="h2g"?"btn-primary":"btn-ghost");
+    $("conv-mode-g").style.flex="1"; $("conv-mode-h").style.flex="1";
+  }
+  setModeUI();
+  $("conv-mode-g").onclick = ()=>{ convDirection="g2h"; setModeUI(); renderConvFields(); hideErr($("conv-err")); $("conv-result").classList.remove("show"); };
+  $("conv-mode-h").onclick = ()=>{ convDirection="h2g"; setModeUI(); renderConvFields(); hideErr($("conv-err")); $("conv-result").classList.remove("show"); };
+  $("conv-swap").onclick = (e)=>{
+    e.currentTarget.classList.add("spin");
+    setTimeout(()=>e.currentTarget.classList.remove("spin"),400);
+    convDirection = convDirection==="g2h" ? "h2g" : "g2h";
+    setModeUI(); renderConvFields(); hideErr($("conv-err")); $("conv-result").classList.remove("show");
+  };
+  $("conv-today").onclick = ()=>{
+    const now = new Date();
+    if(convDirection==="g2h"){ $("conv-gy").value=now.getFullYear(); $("conv-gm").value=now.getMonth()+1; $("conv-gd").value=now.getDate(); }
+    else { const h=gregorianToHijri(now.getFullYear(),now.getMonth()+1,now.getDate()); $("conv-hy").value=h.y; $("conv-hm").value=h.m; $("conv-hd").value=h.d; }
+  };
+  $("conv-go").onclick = ()=>{
+    const err = $("conv-err"); hideErr(err);
+    try{
+      if(convDirection==="g2h"){
+        const y=+$("conv-gy").value, m=+$("conv-gm").value, d=+$("conv-gd").value;
+        if(!y||!m||!d||m<1||m>12||d<1||d>31){ showErr(err, tr().err.invalidDate); return; }
+        const h = gregorianToHijri(y,m,d);
+        $("conv-main").textContent = fmtHijri(h);
+        $("conv-result").classList.add("show");
+        pushHistory({tool:"converter", label:`${d}/${m}/${y}`, result: fmtHijri(h), icon:"swap"});
+      } else {
+        const y=+$("conv-hy").value, m=+$("conv-hm").value, d=+$("conv-hd").value;
+        if(!y||!m||!d||m<1||m>12||d<1||d>30){ showErr(err, tr().err.invalidDate); return; }
+        const g = hijriToGregorian(y,m,d);
+        const gd = new Date(g.y, g.m-1, g.d);
+        $("conv-main").textContent = fmtGregorian(gd);
+        $("conv-result").classList.add("show");
+        pushHistory({tool:"converter", label:`${d}/${m}/${y} ${tr().hijriLabel}`, result: fmtGregorian(gd), icon:"swap"});
+      }
+    }catch(e){ showErr(err, tr().err.invalidDate); }
+  };
+  $("conv-copy").onclick = ()=>copyText($("conv-main").textContent, $("conv-copy"));
+  $("conv-share").onclick = ()=>shareText("MIZAN", $("conv-main").textContent);
+}
+
+function bodyDateDiff(){
+  const t = tr().t.dateDiff;
+  return `
+  <div class="field-row">
+    <div class="field"><label>${t.from}</label><input type="date" id="dd-from" value="${todayStr()}"></div>
+    <div class="field"><label>${t.to}</label><input type="date" id="dd-to"></div>
+  </div>
+  <div class="toggle-row"><button class="switch" id="dd-inclusive" role="switch" aria-checked="false" type="button"></button><span>${t.inclusive}</span></div>
+  <button class="btn btn-primary btn-block" id="dd-calc">${ic("check")}<span>${t.calc}</span></button>
+  <div class="err-box" id="dd-err"></div>
+  <div class="result-box" id="dd-result">
+    <div class="result-main num" id="dd-main"></div>
+    <div class="result-sub" id="dd-sub"></div>
+    <div class="result-stats">
+      <div class="stat"><b id="dd-hours">0</b><span>${t.totalHours}</span></div>
+      <div class="stat"><b id="dd-mins">0</b><span>${t.totalMinutes}</span></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-ghost btn-sm" id="dd-copy">${ic("copy")}</button>
+      <button class="btn btn-ghost btn-sm" id="dd-share">${ic("share")}</button>
+    </div>
+  </div>`;
+}
+function wireDateDiff(){
+  const $ = id=>document.getElementById(id);
+  let inclusive = false;
+  $("dd-inclusive").onclick = ()=>{ inclusive=!inclusive; $("dd-inclusive").classList.toggle("on",inclusive); $("dd-inclusive").setAttribute("aria-checked", inclusive?"true":"false"); };
+  $("dd-calc").onclick = ()=>{
+    const t = tr().t.dateDiff;
+    const err = $("dd-err"); hideErr(err);
+    const from = parseDateInput($("dd-from").value), to = parseDateInput($("dd-to").value);
+    if(!from || !to){ showErr(err, tr().err.range); return; }
+    let days = Math.round((to-from)/864e5);
+    if(inclusive) days += (days>=0?1:-1);
+    const absDays = Math.abs(days);
+    $("dd-main").textContent = `${fmtNum(absDays)} ${t.daysUnit}`;
+    const w = Math.floor(absDays/7), dd = absDays%7;
+    $("dd-sub").textContent = LANG==="ar" ? `${fmtNum(w)} أسبوعًا و${fmtNum(dd)} يوم`
+      : LANG==="fr" ? `${fmtNum(w)} semaines et ${fmtNum(dd)} jours`
+      : `${fmtNum(w)} weeks and ${fmtNum(dd)} days`;
+    $("dd-hours").textContent = fmtNum(absDays*24);
+    $("dd-mins").textContent = fmtNum(absDays*24*60);
+    $("dd-result").classList.add("show");
+    pushHistory({tool:"dateDiff", label:`${fmtGregorian(from)} → ${fmtGregorian(to)}`, result:$("dd-main").textContent, icon:"calendar"});
+  };
+  $("dd-copy").onclick = ()=>copyText($("dd-main").textContent+" — "+$("dd-sub").textContent, $("dd-copy"));
+  $("dd-share").onclick = ()=>shareText("MIZAN", $("dd-main").textContent);
+}
+
+function bodyTimeDiff(){
+  const t = tr().t.timeDiff;
+  return `
+  <div class="field-row">
+    <div class="field"><label>${t.from}</label><input type="time" id="td-from" value="21:00"></div>
+    <div class="field"><label>${t.to}</label><input type="time" id="td-to" value="04:00"></div>
+  </div>
+  <button class="btn btn-primary btn-block" id="td-calc">${ic("check")}<span>${t.calc}</span></button>
+  <div class="err-box" id="td-err"></div>
+  <div class="result-box" id="td-result">
+    <div class="result-main num" id="td-main"></div>
+    <div class="result-stats">
+      <div class="stat"><b id="td-mins">0</b><span>${t.totalMinutes}</span></div>
+      <div class="stat"><b id="td-secs">0</b><span>${t.totalSeconds}</span></div>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-ghost btn-sm" id="td-copy">${ic("copy")}</button>
+      <button class="btn btn-ghost btn-sm" id="td-share">${ic("share")}</button>
+    </div>
+  </div>`;
+}
+function wireTimeDiff(){
+  const $ = id=>document.getElementById(id);
+  $("td-calc").onclick = ()=>{
+    const t = tr().t.timeDiff;
+    const err = $("td-err"); hideErr(err);
+    const fv = $("td-from").value, tv = $("td-to").value;
+    if(!fv || !tv){ showErr(err, tr().err.time); return; }
+    const [fh,fm] = fv.split(":").map(Number), [th,tm] = tv.split(":").map(Number);
+    let diff = (th*60+tm) - (fh*60+fm);
+    if(diff<0) diff += 1440;
+    const h = Math.floor(diff/60), m = diff%60;
+    $("td-main").textContent = `${fmtNum(h)} ${t.hours} ${fmtNum(m)} ${t.minutes}`;
+    $("td-mins").textContent = fmtNum(diff);
+    $("td-secs").textContent = fmtNum(diff*60);
+    $("td-result").classList.add("show");
+    pushHistory({tool:"timeDiff", label:`${fv} → ${tv}`, result:$("td-main").textContent, icon:"clock"});
+  };
+  $("td-copy").onclick = ()=>copyText($("td-main").textContent, $("td-copy"));
+  $("td-share").onclick = ()=>shareText("MIZAN", $("td-main").textContent);
+}
+
+function bodyCountdown(){
+  const t = tr().t.countdown;
+  const now = new Date();
+  return `
+  <div class="field-row">
+    <div class="field"><label>${t.date}</label><input type="date" id="cd-date" value="${todayStr()}"></div>
+    <div class="field"><label>${t.time}</label><input type="time" id="cd-time" value="${pad2(now.getHours())}:${pad2(now.getMinutes())}"></div>
+  </div>
+  <button class="btn btn-primary btn-block" id="cd-start">${ic("check")}<span>${t.start}</span></button>
+  <div class="err-box" id="cd-err"></div>
+  <div class="result-box" id="cd-result">
+    <div class="countdown-grid">
+      <div class="cd-box"><div class="cd-num num" id="cd-d">0</div><div class="cd-lbl">${t.days}</div></div>
+      <div class="cd-box"><div class="cd-num num" id="cd-h">0</div><div class="cd-lbl">${t.hours}</div></div>
+      <div class="cd-box"><div class="cd-num num" id="cd-m">0</div><div class="cd-lbl">${t.minutes}</div></div>
+      <div class="cd-box"><div class="cd-num num" id="cd-s">0</div><div class="cd-lbl">${t.seconds}</div></div>
+    </div>
+  </div>`;
+}
+let countdownTimer = null;
+function wireCountdown(){
+  const $ = id=>document.getElementById(id);
+  $("cd-start").onclick = ()=>{
+    const t = tr().t.countdown;
+    const err = $("cd-err"); hideErr(err);
+    const dv = $("cd-date").value, tv = $("cd-time").value || "00:00";
+    if(!dv){ showErr(err, tr().err.empty); return; }
+    const target = new Date(dv+"T"+tv+":00");
+    if(isNaN(target.getTime()) || target <= new Date()){ showErr(err, tr().err.futureNeeded); return; }
+    if(countdownTimer) clearInterval(countdownTimer);
+    $("cd-result").classList.add("show");
+    function tick(){
+      const diff = target - new Date();
+      const box = document.getElementById("cd-d");
+      if(!box){ clearInterval(countdownTimer); return; }
+      if(diff<=0){
+        $("cd-d").textContent="0"; $("cd-h").textContent="0"; $("cd-m").textContent="0"; $("cd-s").textContent="0";
+        clearInterval(countdownTimer); toast(t.reached,"success"); return;
+      }
+      const d = Math.floor(diff/864e5), h=Math.floor(diff%864e5/36e5), m=Math.floor(diff%36e5/6e4), s=Math.floor(diff%6e4/1000);
+      $("cd-d").textContent=fmtNum(d); $("cd-h").textContent=fmtNum(h); $("cd-m").textContent=fmtNum(m); $("cd-s").textContent=fmtNum(s);
+    }
+    tick();
+    countdownTimer = setInterval(tick,1000);
+    pushHistory({tool:"countdown", label:`${dv} ${tv}`, result:fmtGregorian(target), icon:"clock"});
+  };
+}
+
+function bodyAddSub(){
+  const t = tr().t.addsub;
+  return `
+  <div class="field-row">
+    <div class="field"><label>${t.baseDate}</label><input type="date" id="as-date" value="${todayStr()}"></div>
+    <div class="field"><label>${t.amount}</label><input type="number" id="as-amount" value="100" min="1"></div>
+    <div class="field"><label>${t.unit}</label>
+      <select id="as-unit">
+        <option value="days">${t.days}</option><option value="weeks">${t.weeks}</option>
+        <option value="months">${t.months}</option><option value="years">${t.years}</option>
+      </select>
+    </div>
+  </div>
+  <div class="field-row">
+    <button class="btn btn-ghost" id="as-sub" style="flex:1">${ic("minus")}<span>${t.sub}</span></button>
+    <button class="btn btn-primary" id="as-add" style="flex:1">${ic("plus")}<span>${t.add}</span></button>
+  </div>
+  <div class="err-box" id="as-err"></div>
+  <div class="result-box" id="as-result">
+    <div class="result-sub">${t.resultDate}</div>
+    <div class="result-main" id="as-main"></div>
+    <div class="result-actions">
+      <button class="btn btn-ghost btn-sm" id="as-copy">${ic("copy")}</button>
+      <button class="btn btn-ghost btn-sm" id="as-share">${ic("share")}</button>
+    </div>
+  </div>`;
+}
+function wireAddSub(){
+  const $ = id=>document.getElementById(id);
+  function run(sign){
+    const err = $("as-err"); hideErr(err);
+    const base = parseDateInput($("as-date").value);
+    const amt = +$("as-amount").value;
+    if(!base || !amt || amt<=0){ showErr(err, tr().err.empty); return; }
+    const unit = $("as-unit").value;
+    let result = new Date(base);
+    if(unit==="days") result.setDate(result.getDate()+sign*amt);
+    else if(unit==="weeks") result.setDate(result.getDate()+sign*amt*7);
+    else if(unit==="months") result.setMonth(result.getMonth()+sign*amt);
+    else if(unit==="years") result.setFullYear(result.getFullYear()+sign*amt);
+    $("as-main").textContent = fmtGregorian(result);
+    $("as-result").classList.add("show");
+    pushHistory({tool:"addsub", label:`${fmtGregorian(base)} ${sign>0?"+":"-"} ${amt}`, result:fmtGregorian(result), icon:"plus"});
+  }
+  $("as-add").onclick = ()=>run(1);
+  $("as-sub").onclick = ()=>run(-1);
+  $("as-copy").onclick = ()=>copyText($("as-main").textContent, $("as-copy"));
+  $("as-share").onclick = ()=>shareText("MIZAN", $("as-main").textContent);
+}
+
+function bodyDayFinder(){
+  const t = tr().t.dayfinder;
+  return `
+  <div class="field-row">
+    <div class="field"><label>${t.date}</label><input type="date" id="df-date" value="${todayStr()}"></div>
+    <button class="btn btn-primary" id="df-calc">${ic("check")}<span>${t.calc}</span></button>
+  </div>
+  <div class="err-box" id="df-err"></div>
+  <div class="result-box" id="df-result">
+    <div class="result-main" id="df-main"></div>
+    <div class="result-stats">
+      <div class="stat"><b id="df-doy">0</b><span>${t.dayOfYear}</span></div>
+      <div class="stat"><b id="df-week">0</b><span>${t.weekNo}</span></div>
+    </div>
+    <div class="result-sub" id="df-hijri"></div>
+  </div>`;
+}
+function wireDayFinder(){
+  const $ = id=>document.getElementById(id);
+  $("df-calc").onclick = ()=>{
+    const err = $("df-err"); hideErr(err);
+    const d = parseDateInput($("df-date").value);
+    if(!d){ showErr(err, tr().err.empty); return; }
+    $("df-main").textContent = weekdayName(d);
+    $("df-doy").textContent = fmtNum(dayOfYear(d));
+    $("df-week").textContent = fmtNum(isoWeekNumber(d));
+    const h = gregorianToHijri(d.getFullYear(), d.getMonth()+1, d.getDate());
+    $("df-hijri").textContent = `${fmtGregorian(d)} — ${fmtHijri(h)}`;
+    $("df-result").classList.add("show");
+    pushHistory({tool:"dayfinder", label:fmtGregorian(d), result:weekdayName(d), icon:"calendar"});
+  };
+}
+
+const TOOL_BODY = {age:bodyAge, converter:bodyConverter, dateDiff:bodyDateDiff, timeDiff:bodyTimeDiff, countdown:bodyCountdown, addsub:bodyAddSub, dayfinder:bodyDayFinder};
+const TOOL_WIRE = {age:wireAge, converter:wireConverter, dateDiff:wireDateDiff, timeDiff:wireTimeDiff, countdown:wireCountdown, addsub:wireAddSub, dayfinder:wireDayFinder};
+
+/* =====================================================================
+   13) RENDER: TOOLS GRID / HISTORY / FAVORITES
+   ===================================================================== */
+let toolFilter = "all";
+function renderToolChips(){
+  const t = tr().tools;
+  const box = document.getElementById("toolFilterChips");
+  if(!box) return;
+  box.innerHTML = `
+    <button class="chip ${toolFilter==='all'?'active':''}" data-filter="all">${t.all}</button>
+    <button class="chip ${toolFilter==='fav'?'active':''}" data-filter="fav">${ic("star")} ${t.favorites}</button>
+  `;
+  box.querySelectorAll("[data-filter]").forEach(b=>{
+    b.onclick = ()=>{ toolFilter = b.getAttribute("data-filter"); renderTools(); };
+  });
+}
+function renderTools(){
+  renderToolChips();
+  const grid = document.getElementById("toolsGrid");
+  if(!grid) return;
+  let ids = TOOL_IDS.slice();
+  ids.sort((a,b)=> (FAVORITES.includes(b)?1:0) - (FAVORITES.includes(a)?1:0));
+  if(toolFilter==="fav") ids = ids.filter(id=>FAVORITES.includes(id));
+  if(ids.length===0){
+    grid.innerHTML = `<div class="card tool-card wide"><div class="empty-state">${iconBox("star")}<div>${tr().favorites.empty}</div></div></div>`;
+    return;
+  }
+  grid.innerHTML = ids.map(id=>toolCardShell(id, id==="converter"?"wide":"")).join("");
+  ids.forEach(id=>{
+    const bodyEl = document.getElementById("body-"+id);
+    if(!bodyEl) return;
+    bodyEl.innerHTML = TOOL_BODY[id]();
+    TOOL_WIRE[id]();
+  });
+  grid.querySelectorAll("[data-fav]").forEach(b=>{
+    b.onclick = ()=>{
+      b.classList.add("pop");
+      setTimeout(()=>b.classList.remove("pop"),450);
+      toggleFavorite(b.getAttribute("data-fav"));
+    };
+  });
+  renderHistoryPanel();
+  renderFavoritesPanel();
+}
+
+function renderHistoryPanel(){
+  const box = document.getElementById("historyPanel");
+  if(!box) return;
+  const t = tr(), th = t.history;
+  let rows = "";
+  if(HISTORY.length===0){
+    rows = `<div class="empty-state">${iconBox("history",true)}<div>${th.empty}</div></div>`;
+  } else {
+    rows = HISTORY.slice(0,10).map(h=>{
+      const tt = t.t[h.tool] ? t.t[h.tool].title : h.tool;
+      return `<div class="hist-item">
+        <div style="display:flex;gap:10px;align-items:center;overflow:hidden;min-width:0">
+          ${ic(h.icon||'clock')}
+          <div style="overflow:hidden;min-width:0"><div style="font-weight:600">${tt}</div><div style="color:var(--text-secondary);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${h.label} → ${h.result}</div></div>
+        </div>
+        <div class="hist-actions">
+          <button class="icon-btn btn-icon-only" data-hist-copy="${h.id}" aria-label="copy" style="width:34px;height:34px">${ic("copy")}</button>
+          <button class="icon-btn btn-icon-only" data-hist-del="${h.id}" aria-label="delete" style="width:34px;height:34px">${ic("trash")}</button>
+        </div>
+      </div>`;
+    }).join("");
+  }
+  box.innerHTML = `
+    <div class="tool-head" style="margin-bottom:14px">
+      <div class="tool-head-l">${iconBox("history",true)}<div class="tool-title">${th.title}</div></div>
+      ${HISTORY.length? `<button class="btn btn-danger btn-sm" id="hist-clear">${ic("trash")}<span>${th.clearAll}</span></button>`:""}
+    </div>
+    ${rows}`;
+  box.querySelectorAll("[data-hist-copy]").forEach(b=>{
+    b.onclick = ()=>{ const h = HISTORY.find(x=>x.id===b.getAttribute("data-hist-copy")); if(h) copyText(`${h.label} → ${h.result}`); };
+  });
+  box.querySelectorAll("[data-hist-del]").forEach(b=>{
+    b.onclick = ()=>{ HISTORY = HISTORY.filter(x=>x.id!==b.getAttribute("data-hist-del")); store.set("mizan_history",HISTORY); toast(tr().toast.deleted,"success"); renderHistoryPanel(); };
+  });
+  const clearBtn = document.getElementById("hist-clear");
+  if(clearBtn) clearBtn.onclick = ()=>{ HISTORY=[]; store.set("mizan_history",HISTORY); toast(tr().toast.cleared,"success"); renderHistoryPanel(); };
+}
+
+function renderFavoritesPanel(){
+  const box = document.getElementById("favoritesPanel");
+  if(!box) return;
+  const t = tr(), tf = t.favorites;
+  let rows = "";
+  if(FAVORITES.length===0){
+    rows = `<div class="empty-state">${iconBox("star",true)}<div>${tf.empty}</div></div>`;
+  } else {
+    rows = FAVORITES.map(id=>{
+      const tt = t.t[id];
+      return `<div class="hist-item">
+        <div style="display:flex;gap:10px;align-items:center;min-width:0">${ic(TOOL_ICON[id])}<span style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${tt.title}</span></div>
+        <button class="icon-btn btn-icon-only" data-unfav="${id}" aria-label="remove" style="width:34px;height:34px">${ic("close")}</button>
+      </div>`;
+    }).join("");
+  }
+  box.innerHTML = `<div class="tool-head" style="margin-bottom:14px"><div class="tool-head-l">${iconBox("star",true)}<div class="tool-title">${tf.title}</div></div></div>${rows}`;
+  box.querySelectorAll("[data-unfav]").forEach(b=>{
+    b.onclick = ()=>toggleFavorite(b.getAttribute("data-unfav"));
+  });
+}
+
+/* =====================================================================
+   14) CALENDAR
+   ===================================================================== */
+let calYear, calMonth, calSelected = null, calPrimary = "g";
+function renderCalendar(){
+  const now = new Date();
+  if(calYear===undefined){ calYear = now.getFullYear(); calMonth = now.getMonth(); }
+  const t = tr(), tc = t.calendar;
+  const first = new Date(calYear, calMonth, 1);
+  const startOffset = first.getDay();
+  const totalDays = daysInMonth(calYear, calMonth);
+  const prevDays = daysInMonth(calYear, calMonth-1<0?11:calMonth-1);
+  let cells = "";
+  for(let i=0;i<startOffset;i++){
+    const dnum = prevDays - startOffset + i + 1;
+    cells += `<div class="cal-day muted"><div class="cal-day-num">${dnum}</div></div>`;
+  }
+  for(let d=1; d<=totalDays; d++){
+    const dt = new Date(calYear, calMonth, d);
+    const h = gregorianToHijri(calYear, calMonth+1, d);
+    const isToday = dt.toDateString()===now.toDateString();
+    const isSel = calSelected && dt.toDateString()===calSelected.toDateString();
+    const mainNum = calPrimary==="g" ? d : h.d;
+    const subNum = calPrimary==="g" ? h.d+" "+tc.primaryHijri.slice(0,1) : d+" "+tc.primaryGregorian.slice(0,1);
+    cells += `<div class="cal-day ${isToday?'today':''} ${isSel?'selected':''}" data-day="${d}">
+      <div class="cal-day-num num">${mainNum}</div><div class="cal-day-sub num">${subNum}</div></div>`;
+  }
+  const monthLabel = `${GMONTHS[LANG][calMonth]} ${calYear}`;
+  const box = document.getElementById("calCard");
+  if(!box) return;
+  box.innerHTML = `
+    <div class="cal-head">
+      <div class="cal-title">${monthLabel}</div>
+      <div class="cal-nav">
+        <button class="icon-btn" id="cal-prev" aria-label="prev">${ic("chevron")}</button>
+        <button class="btn btn-ghost btn-sm" id="cal-today">${tc.today}</button>
+        <button class="icon-btn" id="cal-next" aria-label="next" style="transform:scaleX(-1)">${ic("chevron")}</button>
+        <button class="btn btn-secondary btn-sm" id="cal-toggle">${calPrimary==='g'?tc.primaryHijri:tc.primaryGregorian}</button>
+      </div>
+    </div>
+    <div class="cal-grid">
+      ${tc.dow.map(d=>`<div class="cal-dow">${d}</div>`).join("")}
+      ${cells}
+    </div>
+    <div class="cal-panel" id="cal-panel"><p class="hint" style="grid-column:1/-1">${tc.selectDay}</p></div>
+  `;
+  document.getElementById("cal-prev").onclick = ()=>{ calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
+  document.getElementById("cal-next").onclick = ()=>{ calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
+  document.getElementById("cal-today").onclick = ()=>{ calYear=now.getFullYear(); calMonth=now.getMonth(); calSelected=now; renderCalendar(); };
+  document.getElementById("cal-toggle").onclick = ()=>{ calPrimary = calPrimary==="g"?"h":"g"; renderCalendar(); };
+  box.querySelectorAll("[data-day]").forEach(cell=>{
+    cell.onclick = ()=>{
+      const d = +cell.getAttribute("data-day");
+      calSelected = new Date(calYear, calMonth, d);
+      renderCalendar();
+      showDayPanel(calSelected);
+    };
+  });
+  if(calSelected) showDayPanel(calSelected);
+}
+function showDayPanel(date){
+  const tc = tr().calendar;
+  const panel = document.getElementById("cal-panel");
+  if(!panel) return;
+  const h = gregorianToHijri(date.getFullYear(), date.getMonth()+1, date.getDate());
+  panel.classList.add("show");
+  panel.innerHTML = `
+    <div class="stat"><b>${fmtGregorian(date)}</b><span>${tc.primaryGregorian}</span></div>
+    <div class="stat"><b>${fmtHijri(h)}</b><span>${tc.primaryHijri}</span></div>
+    <div class="stat"><b>${weekdayName(date)}</b><span>${tr().hero.weekday}</span></div>
+    <div class="stat"><b class="num">${fmtNum(dayOfYear(date))}</b><span>${tc.dayOfYear}</span></div>
+    <div class="stat"><b class="num">${fmtNum(isoWeekNumber(date))}</b><span>${tc.weekNo}</span></div>
+  `;
+}
+
+/* =====================================================================
+   15) EVENTS
+   ===================================================================== */
+function nextOccurrence(hMonth, hDay){
+  const now = new Date();
+  const hNow = gregorianToHijri(now.getFullYear(), now.getMonth()+1, now.getDate());
+  let year = hNow.y;
+  let g = hijriToGregorian(year, hMonth, hDay);
+  let gd = new Date(g.y, g.m-1, g.d);
+  if(gd < now){ year++; g = hijriToGregorian(year, hMonth, hDay); gd = new Date(g.y, g.m-1, g.d); }
+  return gd;
+}
+function renderEvents(){
+  const t = tr(), te = t.events;
+  const now = new Date();
+  const items = [
+    {name:te.hijriNewYear, date:nextOccurrence(1,1), icon:"star"},
+    {name:te.ramadan, date:nextOccurrence(9,1), icon:"calendar"},
+    {name:te.eidFitr, date:nextOccurrence(10,1), icon:"star"},
+    {name:te.mawlid, date:nextOccurrence(3,12), icon:"star"},
+    {name:te.eidAdha, date:nextOccurrence(12,10), icon:"star"},
+  ];
+  if(PROFILE && PROFILE.birthDate){
+    const b = parseDateInput(PROFILE.birthDate);
+    if(b){
+      let next = new Date(now.getFullYear(), b.getMonth(), b.getDate());
+      if(next < new Date(now.getFullYear(),now.getMonth(),now.getDate())) next = new Date(now.getFullYear()+1, b.getMonth(), b.getDate());
+      items.push({name:te.birthday, date:next, icon:"cake"});
+    }
+  }
+  items.sort((a,b)=>a.date-b.date);
+  const grid = document.getElementById("eventsGrid");
+  if(!grid) return;
+  grid.innerHTML = items.map(it=>{
+    const days = Math.round((it.date - new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);
+    return `<div class="card event-card">
+      <div class="tool-head-l">${iconBox(it.icon)}<div style="min-width:0"><div class="event-name">${it.name}</div><div class="event-date">${fmtGregorian(it.date)}</div></div></div>
+      <div class="result-main" style="font-size:20px">${te.inDays} ${fmtNum(days)} ${te.daysWord}</div>
+    </div>`;
+  }).join("");
+}
+
+/* =====================================================================
+   16) SEARCH
+   ===================================================================== */
+function doSearch(q){
+  q = (q||"").trim().toLowerCase();
+  if(!q) return;
+  const kw = SEARCH_KEYWORDS[LANG];
+  let match = null;
+  for(const id of TOOL_IDS){
+    const list = kw[id].map(s=>s.toLowerCase());
+    if(list.some(k=>k.includes(q)||q.includes(k))){ match = id; break; }
+  }
+  if(!match){
+    for(const id of TOOL_IDS){
+      if(tr().t[id].title.toLowerCase().includes(q)){ match=id; break; }
+    }
+  }
+  if(match){
+    navigate("tools");
+    setTimeout(()=>{
+      const el = document.querySelector(`[data-tool="${match}"]`);
+      if(el){ el.scrollIntoView({behavior:"smooth",block:"center"}); el.classList.add("highlight-pulse"); setTimeout(()=>el.classList.remove("highlight-pulse"),1500); }
+    },150);
+  }
+}
+
+/* =====================================================================
+   17) NAV / THEME / LANG BINDINGS
+   ===================================================================== */
+function bindNav(){
+  document.querySelectorAll("[data-route-link]").forEach(a=>{
+    a.onclick = (e)=>{ e.preventDefault(); navigate(a.getAttribute("data-route-link")); };
+  });
+  document.getElementById("burgerBtn").onclick = ()=>document.getElementById("mobilePanel").classList.add("open");
+  document.getElementById("closeMobile").onclick = ()=>document.getElementById("mobilePanel").classList.remove("open");
+  document.getElementById("themeBtn").onclick = ()=>{
+    THEME = THEME==="dark" ? "light" : "dark";
+    safeSet("mizan_theme", THEME);
+    applyTheme();
+  };
+  document.getElementById("langBtn").onclick = ()=>{
+    const order = ["ar","en","fr"];
+    LANG = order[(order.indexOf(LANG)+1)%order.length];
+    safeSet("mizan_lang", LANG);
+    fullRerender();
+  };
+  const searchHandler = (e)=>{ if(e.key==="Enter") doSearch(e.target.value); };
+  document.getElementById("searchInput").addEventListener("keydown", searchHandler);
+  document.getElementById("searchInputMobile").addEventListener("keydown", searchHandler);
+
+  // logo easter egg
+  let clicks = 0, clickTimer;
+  document.getElementById("logoBrand").addEventListener("click", (e)=>{
+    clicks++;
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(()=>clicks=0, 800);
+    if(clicks>=5){
+      clicks=0;
+      const brand = document.querySelector(".brand-name");
+      brand.style.transition = "transform .6s ease, color .6s ease";
+      brand.style.transform = "scale(1.3) rotate(-3deg)";
+      brand.style.color = "var(--gold)";
+      setTimeout(()=>{ brand.style.transform=""; brand.style.color=""; }, 700);
+    }
+  });
+}
+function applyTheme(){
+  document.documentElement.setAttribute("data-theme", THEME);
+  const btn = document.getElementById("themeBtn");
+  if(!btn) return;
+  const ariaLabel = btn.getAttribute("aria-label");
+  btn.innerHTML = ic(THEME==="dark" ? "moon" : "sun");
+  const svg = btn.querySelector(".icon");
+  if(svg) svg.id = "themeIcon";
+  if(ariaLabel) btn.setAttribute("aria-label", ariaLabel);
+}
+function fullRerender(){
+  const savedRoute = currentRoute;
+  renderShell();
+  applyI18n();
+  bindNav();
+  navigate(savedRoute, {silent:true});
+}
+
+/* =====================================================================
+   18) INIT
+   ===================================================================== */
+function init(){
+  applyTheme();
+  renderShell();
+  applyI18n();
+  bindNav();
+  tickClock();
+  const startRoute = (location.hash||"#home").replace("#","");
+  navigate(["home","tools","calendar","events","about","privacy"].includes(startRoute)?startRoute:"home", {silent:true});
+}
+init();
+
+})();
+</script>
+
+</body>
+</html>
